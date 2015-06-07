@@ -4,7 +4,7 @@
 	I want to have an API that allows my apps to manage user information
 
 @integrated
-Scenario: Add two numbers
+Scenario: Add a person
 	Given a valid person resource
 	When I post it to the /people API endpoint
 	Then I receive a success (code 201) return message

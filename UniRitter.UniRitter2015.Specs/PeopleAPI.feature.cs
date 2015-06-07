@@ -66,11 +66,11 @@ namespace UniRitter.UniRitter2015.Specs
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Add two numbers")]
+        [NUnit.Framework.DescriptionAttribute("Add a person")]
         [NUnit.Framework.CategoryAttribute("integrated")]
-        public virtual void AddTwoNumbers()
+        public virtual void AddAPerson()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add two numbers", new string[] {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add a person", new string[] {
                         "integrated"});
 #line 7
 this.ScenarioSetup(scenarioInfo);

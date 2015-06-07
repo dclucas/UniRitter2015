@@ -7,12 +7,14 @@ namespace UniRitter.UniRitter2015.Models
 {
     public class PersonModel
     {
-        public string FirstName { get; set; }
+        public Guid id { get; set; }
 
-        public string LastName { get; set; }
+        public string firstName { get; set; }
 
-        public string Email { get; set; }
+        public string lastName { get; set; }
 
-        public string Url { get; set; }
+        public string email { get; set; }
+
+        public string url { get; set; }
     }
 }

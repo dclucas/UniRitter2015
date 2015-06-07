@@ -32,6 +32,7 @@ namespace UniRitter.UniRitter2015.Controllers
         // PUT: api/Person/5
         public IHttpActionResult Put(int id, [FromBody]PersonModel value)
         {
+            value.id = Guid.NewGuid();
             return Json(value);
         }
 
