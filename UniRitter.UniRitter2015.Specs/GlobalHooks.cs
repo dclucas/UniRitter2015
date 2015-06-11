@@ -50,8 +50,6 @@ namespace UniRitter.UniRitter2015.Specs
             }
             catch (Exception exc)
             {
-                //_iisProcess.CloseMainWindow();
-                //_iisProcess.Dispose();
                 throw exc;
             }
         }
