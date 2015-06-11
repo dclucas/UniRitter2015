@@ -93,13 +93,15 @@ namespace UniRitter.UniRitter2015.Specs
         [Then(@"I receive an error \(code (.*)\) return message")]
         public void ThenIReceiveAnErrorCodeReturnMessage(int code)
         {
-            ScenarioContext.Current.Pending();
+            CheckCode(code);
         }
 
         [Then(@"I receive a message listing all validation errors")]
         public void ThenIReceiveAMessageListingAllValidationErrors()
         {
-            ScenarioContext.Current.Pending();
+            var validationMessage = response.Content.ReadAsStringAsync().Result;
+            Assert.That(validationMessage, Contains.Substring("The firstName field is required."));
+            Assert.That(validationMessage, Contains.Substring("The email field is not a valid e-mail address."));
         }
     }
 }
