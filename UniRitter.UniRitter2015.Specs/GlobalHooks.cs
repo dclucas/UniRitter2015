@@ -11,23 +11,6 @@ namespace UniRitter.UniRitter2015.Specs
     [Binding]
     public sealed class GlobalHooks
     {
-        /*
-        private HttpServer _server;
-
-         * 
-private string _url = "http://www.strathweb.com/";
-public WebApiIntegrationTests()
-{
-    var config = new HttpConfiguration();
-    config.Routes.MapHttpRoute(name: "Default", routeTemplate: "api/{controller}/{action}/{id}", defaults: new { id = RouteParameter.Optional });
-    config.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;
-    config.MessageHandlers.Add(new WebApiKeyHandler());
-    _server = new HttpServer(config);
-}
-         * */
-
-        private static Process _iisProcess;
-
         [BeforeTestRun]
         public static void BeforeTestRun()
         {
