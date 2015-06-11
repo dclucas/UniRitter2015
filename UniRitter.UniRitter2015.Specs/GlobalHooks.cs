@@ -11,6 +11,9 @@ namespace UniRitter.UniRitter2015.Specs
     [Binding]
     public sealed class GlobalHooks
     {
+        private static Process _iisProcess;
+
+
         [BeforeTestRun]
         public static void BeforeTestRun()
         {
