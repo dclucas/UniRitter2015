@@ -13,6 +13,7 @@ namespace UniRitter.UniRitter2015.Specs
     {
         private static Process _iisProcess;
 
+
         [BeforeTestRun]
         public static void BeforeTestRun()
         {
@@ -49,8 +50,6 @@ namespace UniRitter.UniRitter2015.Specs
             }
             catch (Exception exc)
             {
-                //_iisProcess.CloseMainWindow();
-                //_iisProcess.Dispose();
                 throw exc;
             }
         }

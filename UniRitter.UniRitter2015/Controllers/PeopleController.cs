@@ -26,13 +26,20 @@ namespace UniRitter.UniRitter2015.Controllers
         // POST: api/Person
         public IHttpActionResult Post([FromBody]PersonModel value)
         {
-            return Json(value);
+            if (ModelState.IsValid)
+            {
+                value.id = Guid.NewGuid();
+                return Json(value);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
         }
 
         // PUT: api/Person/5
         public IHttpActionResult Put(int id, [FromBody]PersonModel value)
         {
-            value.id = Guid.NewGuid();
             return Json(value);
         }
 
