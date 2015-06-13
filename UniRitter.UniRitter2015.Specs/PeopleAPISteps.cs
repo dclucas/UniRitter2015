@@ -11,20 +11,29 @@ namespace UniRitter.UniRitter2015.Specs
     [Binding]
     public class PeopleAPISteps
     {
-        Object validPerson;
+        class Person
+        {
+            public Guid? id { get; set; }
+            public string firstName { get; set; }
+            public string lastName { get; set; }
+            public string email { get; set; }
+            public string url { get; set; }
+        }
+
+        Person personData;
+        HttpResponseMessage response;
+        Person result;
 
         [Given(@"a valid person resource")]
         public void GivenAValidPersonResource()
         {
-            var obj = new { 
+            personData = new Person {
                 firstName = "Fulano",
                 lastName = "de Tal",
                 email = "fulano@gmail.com",
                 url = "http://fulano.com.br"
             };
-            //new JavaScriptSerializer().Serialize
-            //PersonJson = "{  }";
-            validPerson = obj;
+
         }
         
         [When(@"I post it to the /people API endpoint")]
@@ -35,35 +44,64 @@ namespace UniRitter.UniRitter2015.Specs
                 client.BaseAddress = new Uri("http://localhost:49556/");
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                var response = client.PostAsJsonAsync("people", validPerson).Result;
-                
-                if (response.IsSuccessStatusCode)
-                {
-                    dynamic result = JObject.Parse(response.Content.ReadAsStringAsync().Result);
-                    Assert.That(result.id, Is.Not.Null);
-                    //response.Content
-                    //Product product = await response.Content.ReadAsAsync>Product>();
-                    //Console.WriteLine("{0}\t${1}\t{2}", product.Name, product.Price, product.Category);
-                }
+                response = client.PostAsJsonAsync("people", personData).Result;                
             }
         }
-        
-        [Then(@"I receive a success \(code (.*)\) return message")]
-        public void ThenIReceiveASuccessCodeReturnMessage(int p0)
+
+        private void CheckCode(int code) 
         {
-            //ScenarioContext.Current.Pending();
+            Assert.That(response.StatusCode, Is.EqualTo((System.Net.HttpStatusCode)code));
+        }
+
+        [Then(@"I receive a success \(code (.*)\) return message")]
+        public void ThenIReceiveASuccessCodeReturnMessage(int code)
+        {
+            CheckCode(code);
         }
         
         [Then(@"I receive the posted resource")]
         public void ThenIReceiveThePostedResource()
         {
-            //ScenarioContext.Current.Pending();
+            result = response.Content.ReadAsAsync<Person>().Result;
+            Assert.That(result.firstName, Is.EqualTo(personData.firstName));
         }
         
         [Then(@"the posted resource now has an ID")]
         public void ThenThePostedResourceNowHasAnID()
         {
-            //ScenarioContext.Current.Pending();
+            Assert.That(result.id, Is.Not.Null);
+        }
+
+        [Then(@"the person is added to the database")]
+        public void ThenThePersonIsAddedToTheDatabase()
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+        [Given(@"an invalid person resource")]
+        public void GivenAnInvalidPersonResource()
+        {
+            personData = new Person
+            {
+                firstName = null,
+                lastName = "de Tal",
+                email = "fulano",
+                url = "http://fulano.com.br"
+            };
+        }
+
+        [Then(@"I receive an error \(code (.*)\) return message")]
+        public void ThenIReceiveAnErrorCodeReturnMessage(int code)
+        {
+            CheckCode(code);
+        }
+
+        [Then(@"I receive a message listing all validation errors")]
+        public void ThenIReceiveAMessageListingAllValidationErrors()
+        {
+            var validationMessage = response.Content.ReadAsStringAsync().Result;
+            Assert.That(validationMessage, Contains.Substring("The firstName field is required."));
+            Assert.That(validationMessage, Contains.Substring("The email field is not a valid e-mail address."));
         }
     }
 }
