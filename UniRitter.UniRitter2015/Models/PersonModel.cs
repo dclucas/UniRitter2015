@@ -11,6 +11,7 @@ namespace UniRitter.UniRitter2015.Models
         public Guid? id { get; set; }
 
         [Required]
+        [MaxLength(100)]
         public string firstName { get; set; }
 
         [Required]
@@ -20,7 +21,7 @@ namespace UniRitter.UniRitter2015.Models
         [EmailAddress]
         public string email { get; set; }
 
-        [RegularExpression("^http(s){0,1}://.+$")]
+        [Url]
         public string url { get; set; }
     }
 }

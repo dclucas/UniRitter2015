@@ -100,8 +100,8 @@ namespace UniRitter.UniRitter2015.Specs
         public void ThenIReceiveAMessageListingAllValidationErrors()
         {
             var validationMessage = response.Content.ReadAsStringAsync().Result;
-            Assert.That(validationMessage, Contains.Substring("The firstName field is required."));
-            Assert.That(validationMessage, Contains.Substring("The email field is not a valid e-mail address."));
+            Assert.That(validationMessage, Contains.Substring("firstName"));
+            Assert.That(validationMessage, Contains.Substring("email"));
         }
     }
 }
