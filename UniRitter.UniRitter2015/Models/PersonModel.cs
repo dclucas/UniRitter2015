@@ -21,7 +21,7 @@ namespace UniRitter.UniRitter2015.Models
         [EmailAddress]
         public string email { get; set; }
 
-        [RegularExpression("^http(s){0,1}://.+$")]
+        [Url]
         public string url { get; set; }
     }
 }
