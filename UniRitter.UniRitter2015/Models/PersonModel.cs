@@ -11,6 +11,7 @@ namespace UniRitter.UniRitter2015.Models
         public Guid? id { get; set; }
 
         [Required]
+        [MaxLength(100)]
         public string firstName { get; set; }
 
         [Required]
