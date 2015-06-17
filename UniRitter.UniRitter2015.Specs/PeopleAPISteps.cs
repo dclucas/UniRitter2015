@@ -103,5 +103,47 @@ namespace UniRitter.UniRitter2015.Specs
             Assert.That(validationMessage, Contains.Substring("The firstName field is required."));
             Assert.That(validationMessage, Contains.Substring("The email field is not a valid e-mail address."));
         }
+
+        //Scenario: Valid update
+
+        [Given(@"an existing person resource")]
+        public void GivenAnExistingPersonResource()
+        {
+            personData = new Person
+            {
+                firstName = "Guilherme",
+                lastName = "Tutilo",
+                email = "guitutilo@gmail.com",
+                url = "https://github.com/guitutilo/UniRitter2015"
+            };
+        }
+
+        //FAZER
+        //[Then(@"a valid update message to that resource")]
+        //public void ThenIReceiveTheUpdatedResourceInTheBodyOfTheMessage()
+        //{
+        //    ScenarioContext.Current.Pending();
+        //}
+
+        //FAZER
+        [When(@"I run a PUT command against the /people endpoint")]
+        public void WhenIRunAPutCommandAgainstThePeopleEndpoint()
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+        //FAZER
+        [Then(@"I receive a success \(code (.*)\) status message")]
+        public void ThenIReceiveASuccessCodeStatusMessage(int code)
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+        //FAZER
+        [Then(@"I receive the updated resource in the body of the message")]
+        public void ThenIReceiveTheUpdatedResourceInTheBodyOfTheMessage()
+        {
+            ScenarioContext.Current.Pending();
+        }
     }
 }
