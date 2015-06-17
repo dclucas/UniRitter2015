@@ -119,11 +119,11 @@ namespace UniRitter.UniRitter2015.Specs
         }
 
         //FAZER
-        //[Then(@"a valid update message to that resource")]
-        //public void ThenIReceiveTheUpdatedResourceInTheBodyOfTheMessage()
-        //{
-        //    ScenarioContext.Current.Pending();
-        //}
+        [Given(@"a valid update message to that resource")]
+        public void ThenAValidUpdateMessageToThatResource()
+        {
+            ScenarioContext.Current.Pending();
+        }
 
         //FAZER
         [When(@"I run a PUT command against the /people endpoint")]
@@ -132,18 +132,41 @@ namespace UniRitter.UniRitter2015.Specs
             ScenarioContext.Current.Pending();
         }
 
-        //FAZER
         [Then(@"I receive a success \(code (.*)\) status message")]
         public void ThenIReceiveASuccessCodeStatusMessage(int code)
+        {
+            CheckCode(code);
+        }
+
+        [Then(@"I receive the updated resource in the body of the message")]
+        public void ThenIReceiveTheUpdatedResourceInTheBodyOfTheMessage()
+        {
+            result = response.Content.ReadAsAsync<Person>().Result;
+            Assert.That("Guilherme", Is.EqualTo(personData.firstName));
+        }
+
+        //Scenario: Invalid update
+
+        //FAZER
+        [Given(@"an invalid update message to that resource")]
+        public void ThenAnInvalidUpdateMessageToThatResource()
         {
             ScenarioContext.Current.Pending();
         }
 
         //FAZER
-        [Then(@"I receive the updated resource in the body of the message")]
-        public void ThenIReceiveTheUpdatedResourceInTheBodyOfTheMessage()
+        [Then(@"I receive an error \(code (.*)\) status message")]
+        public void ThenIReceiveAnErrorCodeStatusMessage(int code)
         {
             ScenarioContext.Current.Pending();
         }
+
+        //FAZER
+        [Then(@"I receive a list of validation errors in the body of the message")]
+        public void ThenIReceiveAListOfValidationErrorsInTheBodyOfTheMessage()
+        {
+            ScenarioContext.Current.Pending();
+        }
+        
     }
 }
