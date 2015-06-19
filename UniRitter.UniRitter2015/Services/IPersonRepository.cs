@@ -10,9 +10,13 @@ namespace UniRitter.UniRitter2015.Services
     public interface IPersonRepository
     {
         PersonModel Add(PersonModel model);
+
         void Delete(Guid modelId);
-        PersonModel Update(PersonModel model);
+
+        PersonModel Update(Guid id, PersonModel model);
+
         IEnumerable<PersonModel> GetAll();
+
         PersonModel GetById(Guid id);
     }
 }

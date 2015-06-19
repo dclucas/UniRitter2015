@@ -25,11 +25,11 @@ namespace UniRitter.UniRitter2015.Services.Implementation
             data.Remove(modelId);
         }
 
-        public PersonModel Update(PersonModel model)
+        public PersonModel Update(Guid id, PersonModel model)
         {
             // TODO: this is __NOT__ thread safe!
-            // TODO: id should be validated against null. And checked against the querystring
-            data[model.id.Value] = model;
+            // TODO: id should be checked against model.id
+            data[id] = model;
             return model;
         }
 
