@@ -5,11 +5,19 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using UniRitter.UniRitter2015.Models;
+using UniRitter.UniRitter2015.Services;
 
 namespace UniRitter.UniRitter2015.Controllers
 {
     public class PeopleController : ApiController
     {
+        private IPersonRepository _repo;
+
+        public PeopleController(IPersonRepository repo)
+        {
+            this._repo = repo;
+        }
+
         // GET: api/Person
         public IHttpActionResult Get()
         {

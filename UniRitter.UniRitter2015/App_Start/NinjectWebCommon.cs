@@ -1,3 +1,6 @@
+using UniRitter.UniRitter2015.Services;
+using UniRitter.UniRitter2015.Services.Implementation;
+
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(UniRitter.UniRitter2015.App_Start.NinjectWebCommon), "Start")]
 [assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(UniRitter.UniRitter2015.App_Start.NinjectWebCommon), "Stop")]
 
@@ -61,6 +64,7 @@ namespace UniRitter.UniRitter2015.App_Start
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
+            kernel.Bind<IPersonRepository>().To<PersonInMemoryRepository>();
         }        
     }
 }

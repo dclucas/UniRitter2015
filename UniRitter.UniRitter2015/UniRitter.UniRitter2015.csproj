@@ -114,6 +114,8 @@
     <Compile Include="Models\PersonModel.cs" />
     <Compile Include="Models\PostModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Implementation\PersonInMemoryRepository.cs" />
+    <Compile Include="Services\IPersonRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
