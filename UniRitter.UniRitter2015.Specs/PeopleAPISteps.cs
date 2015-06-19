@@ -103,5 +103,124 @@ namespace UniRitter.UniRitter2015.Specs
             Assert.That(validationMessage, Contains.Substring("firstName"));
             Assert.That(validationMessage, Contains.Substring("email"));
         }
+
+
+
+//        Given a valid post resource
+//-> No matching step definition found for the step. Use the following code to create one:
+        [Given(@"a valid post resource")]
+        public void GivenAValidPostResource()
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+//When I post is to the /posts endpoint
+//-> No matching step definition found for the step. Use the following code to create one:
+        [When(@"I post is to the /posts endpoint")]
+        public void WhenIPostIsToThePostsEndpoint()
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+//Then I get a success (code 201) response code
+//-> No matching step definition found for the step. Use the following code to create one:
+        [Then(@"I get a success \(code (.*)\) response code")]
+        public void ThenIGetASuccessCodeResponseCode(int p0)
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+//And I receive the posted resource
+//-> skipped because of previous errors
+//And the resource id is populated
+//-> No matching step definition found for the step. Use the following code to create one:
+        [Then(@"the resource id is populated")]
+        public void ThenTheResourceIdIsPopulated()
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+// ctrl + k + c
+//Given an existing person resource
+//-> No matching step definition found for the step. Use the following code to create one:
+        [Given(@"an existing person resource")]
+        public void GivenAnExistingPersonResource()
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+//And an invalid update message to that resource
+//-> No matching step definition found for the step. Use the following code to create one:
+        [Given(@"an invalid update message to that resource")]
+        public void GivenAnInvalidUpdateMessageToThatResource()
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+//When I run a PUT command against the /people endpoint
+//-> No matching step definition found for the step. Use the following code to create one:
+        [When(@"I run a PUT command against the /people endpoint")]
+        public void WhenIRunAPUTCommandAgainstThePeopleEndpoint()
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+//Then I receive an error (code 400) status message
+//-> No matching step definition found for the step. Use the following code to create one:
+        [Then(@"I receive an error \(code (.*)\) status message")]
+        public void ThenIReceiveAnErrorCodeStatusMessage(int p0)
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+//And I receive a list of validation errors in the body of the message
+//-> No matching step definition found for the step. Use the following code to create one:
+        [Then(@"I receive a list of validation errors in the body of the message")]
+        public void ThenIReceiveAListOfValidationErrorsInTheBodyOfTheMessage()
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+//Given an existing person resource
+//-> No matching step definition found for the step. Use the following code to create one:
+        //[Given(@"an existing person resource")]
+        //public void GivenAnExistingPersonResource()
+        //{
+        //    ScenarioContext.Current.Pending();
+        //}
+
+//And a valid update message to that resource
+//-> No matching step definition found for the step. Use the following code to create one:
+        [Given(@"a valid update message to that resource")]
+        public void GivenAValidUpdateMessageToThatResource()
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+//When I run a PUT command against the /people endpoint
+//-> No matching step definition found for the step. Use the following code to create one:
+        //[When(@"I run a PUT command against the /people endpoint")]
+        //public void WhenIRunAPUTCommandAgainstThePeopleEndpoint()
+        //{
+        //    ScenarioContext.Current.Pending();
+        //}
+
+//Then I receive a success (code 200) status message
+//-> No matching step definition found for the step. Use the following code to create one:
+        //[Then(@"I receive a success \(code (.*)\) status message")]
+        //public void ThenIReceiveASuccessCodeStatusMessage(int p0)
+        //{
+        //    ScenarioContext.Current.Pending();
+        //}
+
+//And I receive the updated resource in the body of the message
+//-> No matching step definition found for the step. Use the following code to create one:
+        [Then(@"I receive the updated resource in the body of the message")]
+        public void ThenIReceiveTheUpdatedResourceInTheBodyOfTheMessage()
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+
     }
 }
