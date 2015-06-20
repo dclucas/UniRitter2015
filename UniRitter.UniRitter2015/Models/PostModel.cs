@@ -11,8 +11,16 @@ namespace UniRitter.UniRitter2015.Models
         public Guid? id { get; set; }
 
         [Required]
+        [MaxLength(4000)]
+        public string body { get; set; }
+
+        [Required]
         [MaxLength(100)]
-        public string post { get; set; }
+        public string title { get; set; }
+
+        public string[] tags { get; set; }
+
+        public PersonModel author { get; set; }
 
     }
 }
