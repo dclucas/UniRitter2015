@@ -32,8 +32,8 @@ namespace UniRitter.UniRitter2015.Specs
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "People API", "In order to know who places posts and comments on my blog\nAs a blog owner\nI want " +
-                    "to have an API that allows my apps to manage user information", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "People API", "In order to know who places posts and comments on my blog\r\nAs a blog owner\r\nI wan" +
+                    "t to have an API that allows my apps to manage user information", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -107,6 +107,48 @@ this.ScenarioSetup(scenarioInfo);
  testRunner.Then("I receive an error (code 400) return message", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 20
  testRunner.And("I receive a message listing all validation errors", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Valid update")]
+        public virtual void ValidUpdate()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Valid update", ((string[])(null)));
+#line 22
+this.ScenarioSetup(scenarioInfo);
+#line 23
+ testRunner.Given("an existing person resource", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 24
+ testRunner.And("a valid update message to that resource", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 25
+ testRunner.When("I run a PUT command against the /people endpoint", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 26
+ testRunner.Then("I receive a success (code 200) status message", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 27
+ testRunner.And("I receive the updated resource in the body of the message", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Invalid update")]
+        public virtual void InvalidUpdate()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Invalid update", ((string[])(null)));
+#line 29
+this.ScenarioSetup(scenarioInfo);
+#line 30
+ testRunner.Given("an existing person resource", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 31
+ testRunner.And("an invalid update message to that resource", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 32
+ testRunner.When("I run a PUT command against the /people endpoint", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 33
+ testRunner.Then("I receive an error (code 400) status message", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 34
+ testRunner.And("I receive a list of validation errors in the body of the message", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }

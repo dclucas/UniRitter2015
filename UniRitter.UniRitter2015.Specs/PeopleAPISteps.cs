@@ -103,5 +103,70 @@ namespace UniRitter.UniRitter2015.Specs
             Assert.That(validationMessage, Contains.Substring("firstName"));
             Assert.That(validationMessage, Contains.Substring("email"));
         }
+
+        //Scenario: Valid update
+
+        [Given(@"an existing person resource")]
+        public void GivenAnExistingPersonResource()
+        {
+            personData = new Person
+            {
+                firstName = "Guilherme",
+                lastName = "Tutilo",
+                email = "guitutilo@gmail.com",
+                url = "https://github.com/guitutilo/UniRitter2015"
+            };
+        }
+
+        //FAZER
+        [Given(@"a valid update message to that resource")]
+        public void ThenAValidUpdateMessageToThatResource()
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+        //FAZER
+        [When(@"I run a PUT command against the /people endpoint")]
+        public void WhenIRunAPutCommandAgainstThePeopleEndpoint()
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+        [Then(@"I receive a success \(code (.*)\) status message")]
+        public void ThenIReceiveASuccessCodeStatusMessage(int code)
+        {
+            CheckCode(code);
+        }
+
+        [Then(@"I receive the updated resource in the body of the message")]
+        public void ThenIReceiveTheUpdatedResourceInTheBodyOfTheMessage()
+        {
+            result = response.Content.ReadAsAsync<Person>().Result;
+            Assert.That("Guilherme", Is.EqualTo(personData.firstName));
+        }
+
+        //Scenario: Invalid update
+
+        //FAZER
+        [Given(@"an invalid update message to that resource")]
+        public void ThenAnInvalidUpdateMessageToThatResource()
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+        //FAZER
+        [Then(@"I receive an error \(code (.*)\) status message")]
+        public void ThenIReceiveAnErrorCodeStatusMessage(int code)
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+        //FAZER
+        [Then(@"I receive a list of validation errors in the body of the message")]
+        public void ThenIReceiveAListOfValidationErrorsInTheBodyOfTheMessage()
+        {
+            ScenarioContext.Current.Pending();
+        }
+        
     }
 }

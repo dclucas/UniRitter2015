@@ -18,3 +18,17 @@ Scenario: Invalid person data on insertion
 	When I post it to the /people API endpoint
 	Then I receive an error (code 400) return message
 	And I receive a message listing all validation errors
+
+Scenario: Valid update
+	Given an existing person resource
+	And a valid update message to that resource
+	When I run a PUT command against the /people endpoint
+	Then I receive a success (code 200) status message
+	And I receive the updated resource in the body of the message
+
+Scenario: Invalid update
+	Given an existing person resource
+	And an invalid update message to that resource
+	When I run a PUT command against the /people endpoint
+	Then I receive an error (code 400) status message
+	And I receive a list of validation errors in the body of the message
