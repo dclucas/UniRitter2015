@@ -9,11 +9,11 @@ namespace UniRitter.UniRitter2015.Services
 {
     public interface IRepository<TModel>
     {
-        PersonModel Add(TModel model);
+        TModel Add(TModel model);
 
         void Delete(Guid modelId);
 
-        PersonModel Update(Guid id, TModel model);
+        TModel Update(Guid id, TModel model);
 
         IEnumerable<TModel> GetAll();
 
