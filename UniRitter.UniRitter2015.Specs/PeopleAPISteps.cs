@@ -109,13 +109,16 @@ namespace UniRitter.UniRitter2015.Specs
         [Given(@"an existing person resource")]
         public void GivenAnExistingPersonResource()
         {
-            personData = new Person
-            {
-                firstName = "Guilherme",
-                lastName = "Tutilo",
-                email = "guitutilo@gmail.com",
-                url = "https://github.com/guitutilo/UniRitter2015"
-            };
+            result = response.Content.ReadAsAsync<Person>().Result;
+            Assert.That("Fulano", Is.EqualTo(personData.firstName));
+
+            //personData = new Person
+            //{
+            //    firstName = "Guilherme",
+            //    lastName = "Tutilo",
+            //    email = "guitutilo@gmail.com",
+            //    url = "https://github.com/guitutilo/UniRitter2015"
+            //};
         }
 
         //FAZER
