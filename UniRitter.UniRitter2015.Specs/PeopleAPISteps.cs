@@ -103,5 +103,11 @@ namespace UniRitter.UniRitter2015.Specs
             Assert.That(validationMessage, Contains.Substring("firstName"));
             Assert.That(validationMessage, Contains.Substring("email"));
         }
+        
+        [Given(@"a valid post resource")]
+        public void GivenAValidPostResource()
+        {
+            ScenarioContext.Current.Pending();
+        }
     }
 }
