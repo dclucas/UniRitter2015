@@ -5,31 +5,44 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using UniRitter.UniRitter2015.Models;
+using UniRitter.UniRitter2015.Services;
 
 namespace UniRitter.UniRitter2015.Controllers
 {
     public class PeopleController : ApiController
     {
+        private readonly IRepository<PersonModel> _repo;
+
+        public PeopleController(IRepository<PersonModel> repo)
+        {
+            this._repo = repo;
+        }
+
         // GET: api/Person
         public IHttpActionResult Get()
         {
-            var data = new string[] { "value1", "value2" };
-            return Json(data);
+            return Json(_repo.GetAll());
         }
 
         // GET: api/Person/5
-        public IHttpActionResult Get(int id)
+        public IHttpActionResult Get(Guid id)
         {
-            return Json("value");
+            var data = _repo.GetById(id);
+            if (data != null)
+            {
+                return Json(data);
+            }
+
+            return NotFound();
         }
 
         // POST: api/Person
-        public IHttpActionResult Post([FromBody]PersonModel value)
+        public IHttpActionResult Post([FromBody]PersonModel person)
         {
             if (ModelState.IsValid)
             {
-                value.id = Guid.NewGuid();
-                return Json(value);
+                var data = _repo.Add(person);
+                return Json(data);
             }
             else
             {
@@ -38,14 +51,17 @@ namespace UniRitter.UniRitter2015.Controllers
         }
 
         // PUT: api/Person/5
-        public IHttpActionResult Put(int id, [FromBody]PersonModel value)
+        public IHttpActionResult Put(Guid id, [FromBody]PersonModel person)
         {
-            return Json(value);
+            var data = _repo.Update(id, person);
+            return Json(person);
         }
 
         // DELETE: api/Person/5
-        public void Delete(int id)
+        public IHttpActionResult Delete(Guid id)
         {
+            _repo.Delete(id);
+            return StatusCode(HttpStatusCode.NoContent);
         }
     }
 }
