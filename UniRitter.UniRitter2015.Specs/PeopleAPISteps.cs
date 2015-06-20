@@ -115,5 +115,12 @@ namespace UniRitter.UniRitter2015.Specs
         {
             ScenarioContext.Current.Pending();
         }
+        
+        
+        [Then(@"I receive a list of validation errors in the body of the message")]
+        public void ThenIReceiveAListOfValidationErrorsInTheBodyOfTheMessage()
+        {
+            ScenarioContext.Current.Pending();
+        }
     }
 }
