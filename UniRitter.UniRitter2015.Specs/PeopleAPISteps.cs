@@ -20,9 +20,20 @@ namespace UniRitter.UniRitter2015.Specs
             public string url { get; set; }
         }
 
+        class Post
+        {
+            public Guid? id { get; set; }
+            public string post { get; set; }
+        }
+
         Person personData;
+        Post postData;
         HttpResponseMessage response;
         Person result;
+
+        /// <summary>
+        /// itens iniciais
+        /// </summary>
 
         [Given(@"a valid person resource")]
         public void GivenAValidPersonResource()
@@ -105,12 +116,9 @@ namespace UniRitter.UniRitter2015.Specs
             Assert.That(validationMessage, Contains.Substring("email"));
         }
 
-
-
-
-
-
-
+        /// <summary>
+        /// 2 item
+        /// </summary>
 
         [Given(@"an existing person resource")]
         public void GivenAnExistingPersonResource()
@@ -182,6 +190,50 @@ namespace UniRitter.UniRitter2015.Specs
             Assert.That(validationMessage, Contains.Substring("firstName"));
             Assert.That(validationMessage, Contains.Substring("email"));
         }
+        
+        /// <summary>
+        /// 3 item
+        /// </summary>
+
+        [Given(@"a valid post resource")]
+        public void GivenAValidPostResource()
+        {
+            //ScenarioContext.Current.Pending();
+
+            postData = new Post
+            {
+                post = "comentario no blogue" 
+            };
+
+        }
+
+        [When(@"I post is to the /posts endpoint")]
+        public void WhenIPostIsToThePostsEndpoint()
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("http://localhost:49556/");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                response = client.PostAsJsonAsync("post", postData).Result;
+            }
+        }
+
+        [Then(@"I get a success \(code (.*)\) response code")]
+        public void ThenIGetASuccessCodeResponseCode(int p0)
+        {
+            CheckCode(p0);
+        }
+
+        [Then(@"the resource id is populated")]
+        public void ThenTheResourceIdIsPopulated()
+        {
+            //ScenarioContext.Current.Pending();
+        }
+
+
+
+
 
     }
 }
