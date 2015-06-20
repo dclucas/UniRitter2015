@@ -123,7 +123,7 @@ namespace UniRitter.UniRitter2015.Specs
 
         //FAZER
         [Given(@"a valid update message to that resource")]
-        public void ThenAValidUpdateMessageToThatResource()
+        public void GivenAValidUpdateMessageToThatResource()
         {
             ScenarioContext.Current.Pending();
         }
@@ -170,6 +170,34 @@ namespace UniRitter.UniRitter2015.Specs
         {
             ScenarioContext.Current.Pending();
         }
-        
+
+        //Scenario: Add a valid post
+
+        //FAZER
+        [Given(@"a valid post resource")]
+        public void GivenAValidPostResource()
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+        //FAZER
+        [When(@"I post is to the /posts endpoint")]
+        public void WhenIPostIsToThePostsEndpoint()
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+        [Then(@"I get a success \(code (.*)\) response code")]
+        public void ThenIGetASuccessCodeResponseCode(int code)
+        {
+            CheckCode(code);
+        }
+
+        //FAZER
+        [Then(@"the resource id is populated")]
+        public void ThenTheResourceIdIsPopulated()
+        {
+            ScenarioContext.Current.Pending();
+        }
     }
 }
