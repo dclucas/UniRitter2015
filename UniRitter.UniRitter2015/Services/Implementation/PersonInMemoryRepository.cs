@@ -7,40 +7,40 @@ using UniRitter.UniRitter2015.Models;
 
 namespace UniRitter.UniRitter2015.Services.Implementation
 {
-    public class PersonInMemoryRepository : IPersonRepository
+    public class PersonInMemoryRepository : IRepository<PersonModel>
     {
-        private static Dictionary<Guid, PersonModel> data = new Dictionary<Guid, PersonModel>();
+        private static readonly Dictionary<Guid, PersonModel> Data = new Dictionary<Guid, PersonModel>();
 
         public PersonModel Add(PersonModel model)
         {
             var id = Guid.NewGuid();
             model.id = id;
             // TODO: this is __NOT__ thread safe!
-            data[id] = model;
+            Data[id] = model;
             return model;
         }
 
         public void Delete(Guid modelId)
         {
-            data.Remove(modelId);
+            Data.Remove(modelId);
         }
 
         public PersonModel Update(Guid id, PersonModel model)
         {
             // TODO: this is __NOT__ thread safe!
             // TODO: id should be checked against model.id
-            data[id] = model;
+            Data[id] = model;
             return model;
         }
 
         public IEnumerable<PersonModel> GetAll()
         {
-            return data.Values;
+            return Data.Values;
         }
 
         public PersonModel GetById(Guid id)
         {
-            return data.ContainsKey(id) ? data[id] : null;
+            return Data.ContainsKey(id) ? Data[id] : null;
         }
     }
 }
