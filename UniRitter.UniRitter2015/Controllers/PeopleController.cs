@@ -18,18 +18,18 @@ namespace UniRitter.UniRitter2015.Controllers
         }
 
         // GET: api/Person/5
-        public IHttpActionResult Get(int id)
+        public IHttpActionResult Get(Guid id)//guid
         {
             return Json("value");
         }
 
         // POST: api/Person
-        public IHttpActionResult Post([FromBody]PersonModel value)
+        public IHttpActionResult Post([FromBody]PersonModel person)
         {
             if (ModelState.IsValid)
             {
-                value.id = Guid.NewGuid();
-                return Json(value);
+                person.id = Guid.NewGuid();
+                return Json(person);
             }
             else
             {
@@ -38,7 +38,7 @@ namespace UniRitter.UniRitter2015.Controllers
         }
 
         // PUT: api/Person/5
-        public IHttpActionResult Put(int id, [FromBody]PersonModel value)
+        public IHttpActionResult Put(Guid id, [FromBody]PersonModel value)
         {
             return Json(value);
         }
