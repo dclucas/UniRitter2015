@@ -27,6 +27,7 @@ Scenario: Invalid person data on insertion
 	Then I receive a success (code 200) status message
 	And I receive the updated resource in the body of the message
 
+	@integrated
 Scenario: Invalid update
 	Given an existing person resource
 	And an invalid update message to that resource
@@ -34,6 +35,7 @@ Scenario: Invalid update
 	Then I receive an error (code 400) status message
 	And I receive a list of validation errors in the body of the message
 
+	@integrated
 Scenario: Add a valid post
 	Given a valid post resource
 	When I post is to the /posts endpoint

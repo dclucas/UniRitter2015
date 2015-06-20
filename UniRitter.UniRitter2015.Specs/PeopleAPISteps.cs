@@ -178,7 +178,23 @@ namespace UniRitter.UniRitter2015.Specs
             ScenarioContext.Current.Pending();
         }
 
+        //Scenario: Add a valid post
+	    //Given a valid post resource
+        [Given(@"a valid post resource")]
+        public void GivenAValidPostResource()
+        {
+            result = response.Content.ReadAsAsync<Person>().Result;
+            Assert.That(result.firstName, Is.EqualTo(personData.firstName));
+        }
 
+
+	    //When I post is to the /posts endpoint
+
+	    //Then I get a success (code 201) response code
+
+	    //And I receive the posted resource
+
+	    //And the resource id is populated
 
     }
 }
