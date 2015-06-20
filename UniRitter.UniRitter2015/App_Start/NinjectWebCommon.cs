@@ -1,3 +1,4 @@
+using UniRitter.UniRitter2015.Models;
 using UniRitter.UniRitter2015.Services;
 using UniRitter.UniRitter2015.Services.Implementation;
 
@@ -64,7 +65,7 @@ namespace UniRitter.UniRitter2015.App_Start
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
-            kernel.Bind<IPersonRepository>().To<PersonInMemoryRepository>();
+            kernel.Bind<IRepository<PersonModel>>().To<PersonInMemoryRepository>();
         }        
     }
 }

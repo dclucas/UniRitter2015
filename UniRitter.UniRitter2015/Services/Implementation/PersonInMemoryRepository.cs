@@ -7,7 +7,7 @@ using UniRitter.UniRitter2015.Models;
 
 namespace UniRitter.UniRitter2015.Services.Implementation
 {
-    public class PersonInMemoryRepository : IPersonRepository
+    public class PersonInMemoryRepository : IRepository<PersonModel>
     {
         private static Dictionary<Guid, PersonModel> data = new Dictionary<Guid, PersonModel>();
 
