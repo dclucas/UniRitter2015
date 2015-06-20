@@ -20,7 +20,14 @@ namespace UniRitter.UniRitter2015.Specs
             public string url { get; set; }
         }
 
+        class FullMessage
+        {
+            public Guid? id { get; set; }
+            public string message { get; set; }
+        }
+
         Person personData;
+        FullMessage messageData;
         HttpResponseMessage response;
         Person result;
 
@@ -78,6 +85,8 @@ namespace UniRitter.UniRitter2015.Specs
             ScenarioContext.Current.Pending();
         }
 
+
+        //Scenario Invalid person data on insertion
         [Given(@"an invalid person resource")]
         public void GivenAnInvalidPersonResource()
         {
@@ -103,5 +112,73 @@ namespace UniRitter.UniRitter2015.Specs
             Assert.That(validationMessage, Contains.Substring("The firstName field is required."));
             Assert.That(validationMessage, Contains.Substring("The email field is not a valid e-mail address."));
         }
+
+
+        //Scenario: Valid update
+        [Given(@"an existing person resource")]
+        public void GivenAnExistingPersonResource()
+        {
+            personData = new Person
+            {
+                firstName = "Diego",
+                lastName = "Ritzel",
+                email = "diego@sistemasd.com.br",
+                url = "http://fulano.com.br"
+            };
+        }
+
+        [Given(@"a valid update message to that resource")]
+        public void GivenAValidUpdateMessageToThatResource()
+        {
+            messageData = new FullMessage
+            {
+                message = "Cadastrado com sucesso"
+            };
+        }
+
+        //TODO
+        [When(@"I run a PUT command against the /people endpoint")]
+        public void WhenIRunAPutCommandAgainstThePeopleEndpoint()
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+        [Then(@"I receive a success \(code (.*)\) status message")]
+        public void ThenIReceiveASuccessCodeStatusMessage(int code)
+        {
+            CheckCode(code);
+        }
+
+        [Then(@"I receive the updated resource in the body of the message")]
+        public void ThenIReceiveTheUpdatedResourceInTheBodyOfTheMessage()
+        {
+            result = response.Content.ReadAsAsync<Person>().Result;
+            Assert.That("Diego", Is.EqualTo(personData.firstName));
+        }
+
+        //Scenario: Invalid update
+        //TODO
+        [Given(@"an invalid update message to that resource")]
+        public void ThenAnInvalidUpdateMessageToThatResource()
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+        //TODO
+        [Then(@"I receive an error \(code (.*)\) status message")]
+        public void ThenIReceiveAnErrorCodeStatusMessage(int code)
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+        //TODO
+        [Then(@"I receive a list of validation errors in the body of the message")]
+        public void ThenIReceiveAListOfValidationErrorsInTheBodyOfTheMessage()
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+
+
     }
 }
