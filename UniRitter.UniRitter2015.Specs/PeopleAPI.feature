@@ -19,6 +19,7 @@ Scenario: Invalid person data on insertion
 	Then I receive an error (code 400) return message
 	And I receive a message listing all validation errors
 
+@integrated
 Scenario: Valid update
 	Given an existing person resource
 	And a valid update message to that resource
@@ -26,6 +27,7 @@ Scenario: Valid update
 	Then I receive a success (code 200) status message
 	And I receive the updated resource in the body of the message
 
+@integrated
 Scenario: Invalid update
 	Given an existing person resource
 	And an invalid update message to that resource
