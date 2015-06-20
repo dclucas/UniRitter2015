@@ -109,5 +109,11 @@ namespace UniRitter.UniRitter2015.Specs
         {
             ScenarioContext.Current.Pending();
         }
+        
+        [When(@"I post is to the /posts endpoint")]
+        public void WhenIPostIsToThePostsEndpoint()
+        {
+            ScenarioContext.Current.Pending();
+        }
     }
 }
