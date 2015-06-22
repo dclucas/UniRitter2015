@@ -7,16 +7,16 @@ using UniRitter.UniRitter2015.Models;
 
 namespace UniRitter.UniRitter2015.Services
 {
-    public interface IPersonRepository
+    public interface IRepository<TModel>
     {
-        PersonModel Add(PersonModel model);
+        TModel Add(TModel model);
 
         void Delete(Guid modelId);
 
-        PersonModel Update(Guid id, PersonModel model);
+        TModel Update(Guid id, TModel model);
 
-        IEnumerable<PersonModel> GetAll();
+        IEnumerable<TModel> GetAll();
 
-        PersonModel GetById(Guid id);
+        TModel GetById(Guid id);
     }
 }

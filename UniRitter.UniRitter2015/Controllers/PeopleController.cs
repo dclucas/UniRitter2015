@@ -11,9 +11,9 @@ namespace UniRitter.UniRitter2015.Controllers
 {
     public class PeopleController : ApiController
     {
-        private IPersonRepository _repo;
+        private readonly IRepository<PersonModel> _repo;
 
-        public PeopleController(IPersonRepository repo)
+        public PeopleController(IRepository<PersonModel> repo)
         {
             this._repo = repo;
         }
