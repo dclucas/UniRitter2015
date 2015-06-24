@@ -30,14 +30,9 @@ namespace UniRitter.UniRitter2015.Services.Implementation
 
         public PersonModel Update(Guid id, PersonModel model)
         {
-            throw new NotImplementedException();
-            var entity = GetById(id);
-            if (entity != null)
-            {
-            }
-
-
-            return entity;
+            this.Entry(model).State = EntityState.Modified;
+            this.SaveChanges();
+            return model;
         }
 
         public IEnumerable<PersonModel> GetAll()
