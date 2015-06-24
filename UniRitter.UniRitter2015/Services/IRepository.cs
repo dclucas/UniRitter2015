@@ -11,7 +11,7 @@ namespace UniRitter.UniRitter2015.Services
     {
         PersonModel Add(TModel model);
 
-        void Delete(Guid modelId);
+        bool Delete(Guid modelId);
 
         PersonModel Update(Guid id, TModel model);
 
