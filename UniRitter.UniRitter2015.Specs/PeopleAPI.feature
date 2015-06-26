@@ -38,7 +38,7 @@ Scenario: Invalid update
 @integrated
 Scenario: Add a valid post
 	Given a valid post resource
-	When I post is to the /posts endpoint
+	When I post it to the /posts endpoint
 	Then I get a success (code 201) response code
 	And I receive the posted resource
 	And the resource id is populated

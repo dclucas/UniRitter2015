@@ -105,35 +105,26 @@ namespace UniRitter.UniRitter2015.Specs
         }
 
 
-
-//        Given a valid post resource
-//-> No matching step definition found for the step. Use the following code to create one:
         [Given(@"a valid post resource")]
         public void GivenAValidPostResource()
         {
             ScenarioContext.Current.Pending();
         }
 
-//When I post is to the /posts endpoint
-//-> No matching step definition found for the step. Use the following code to create one:
-        [When(@"I post is to the /posts endpoint")]
+
+        [When(@"I post it to the /posts endpoint")]
         public void WhenIPostIsToThePostsEndpoint()
         {
             ScenarioContext.Current.Pending();
         }
 
-//Then I get a success (code 201) response code
-//-> No matching step definition found for the step. Use the following code to create one:
         [Then(@"I get a success \(code (.*)\) response code")]
         public void ThenIGetASuccessCodeResponseCode(int p0)
         {
             ScenarioContext.Current.Pending();
         }
 
-//And I receive the posted resource
-//-> skipped because of previous errors
-//And the resource id is populated
-//-> No matching step definition found for the step. Use the following code to create one:
+
         [Then(@"the resource id is populated")]
         public void ThenTheResourceIdIsPopulated()
         {

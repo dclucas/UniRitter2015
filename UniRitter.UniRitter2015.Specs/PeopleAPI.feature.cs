@@ -169,7 +169,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 40
  testRunner.Given("a valid post resource", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 41
- testRunner.When("I post is to the /posts endpoint", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I post it to the /posts endpoint", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 42
  testRunner.Then("I get a success (code 201) response code", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 43
