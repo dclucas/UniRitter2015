@@ -28,12 +28,14 @@ namespace UniRitter.UniRitter2015.Services.Implementation
 
         public bool Delete(Guid modelId)
         {
-            throw new NotImplementedException();
+            var result = collection.DeleteOneAsync(p => p.id == modelId).Result;
+            return result.DeletedCount > 0;
         }
 
         public PersonModel Update(Guid id, PersonModel model)
         {
-            throw new NotImplementedException();
+            collection.ReplaceOneAsync(p => p.id == id, model).Wait();
+            return model;
         }
 
         public IEnumerable<PersonModel> GetAll()
@@ -44,7 +46,8 @@ namespace UniRitter.UniRitter2015.Services.Implementation
 
         public PersonModel GetById(Guid id)
         {
-            throw new NotImplementedException();
+            var data = collection.Find(p => p.id == id).FirstOrDefaultAsync();
+            return data.Result;
         }
     }
 }
