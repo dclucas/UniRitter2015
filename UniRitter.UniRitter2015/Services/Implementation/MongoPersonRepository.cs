@@ -10,16 +10,20 @@ namespace UniRitter.UniRitter2015.Services.Implementation
     public class MongoPersonRepository : IRepository<PersonModel>
     {
         private IMongoDatabase database;
+        private IMongoCollection<PersonModel> collection;
 
         public MongoPersonRepository()
         {
             var client = new MongoClient("mongodb://localhost");
-            database = client.GetDatabase("foo");
+            database = client.GetDatabase("uniritter");
+            collection = database.GetCollection<PersonModel>("people");
         }
 
         public PersonModel Add(PersonModel model)
         {
-            throw new NotImplementedException();
+            model.id = Guid.NewGuid();
+            collection.InsertOneAsync(model);
+            return model;
         }
 
         public bool Delete(Guid modelId)
@@ -34,7 +38,8 @@ namespace UniRitter.UniRitter2015.Services.Implementation
 
         public IEnumerable<PersonModel> GetAll()
         {
-            throw new NotImplementedException();
+            var data = collection.Find(p => true).ToListAsync<PersonModel>();
+            return data.Result;
         }
 
         public PersonModel GetById(Guid id)

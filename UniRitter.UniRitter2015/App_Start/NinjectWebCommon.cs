@@ -66,7 +66,8 @@ namespace UniRitter.UniRitter2015.App_Start
         private static void RegisterServices(IKernel kernel)
         {
             //kernel.Bind<IRepository<PersonModel>>().To<PersonInMemoryRepository>();
-            kernel.Bind<IRepository<PersonModel>>().To<PersonInMemoryRepository>();
+            //kernel.Bind<IRepository<PersonModel>>().To<PersonInMemoryRepository>();
+            kernel.Bind<IRepository<PersonModel>>().To<MongoPersonRepository>();
         }
     }
 }
