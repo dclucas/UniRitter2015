@@ -9,6 +9,7 @@ namespace UniRitter.UniRitter2015.Models
     public class PostModel
     {
         public Guid? id { get; set; }
+        public Guid? authorId { get; set; }
 
         [Required]
         [MaxLength(4000)]
@@ -20,7 +21,7 @@ namespace UniRitter.UniRitter2015.Models
 
         public string[] tags { get; set; }
 
-        public PersonModel author { get; set; }
+        // public PersonModel author { get; set; }
 
     }
 }
