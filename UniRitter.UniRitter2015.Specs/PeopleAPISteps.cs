@@ -196,7 +196,7 @@ namespace UniRitter.UniRitter2015.Specs
         //FAZER
         [Then(@"the resource id is populated")]
         public void ThenTheResourceIdIsPopulated()
-        { 
+        {  
             ScenarioContext.Current.Pending();
         }
     }
