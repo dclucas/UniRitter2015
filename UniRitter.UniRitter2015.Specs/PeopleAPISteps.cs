@@ -103,5 +103,24 @@ namespace UniRitter.UniRitter2015.Specs
             Assert.That(validationMessage, Contains.Substring("firstName"));
             Assert.That(validationMessage, Contains.Substring("email"));
         }
+        
+        [Given(@"a valid post resource")]
+        public void GivenAValidPostResource()
+        {
+            ScenarioContext.Current.Pending();
+        }
+        
+        [When(@"I post is to the /posts endpoint")]
+        public void WhenIPostIsToThePostsEndpoint()
+        {
+            ScenarioContext.Current.Pending();
+        }
+        
+        
+        [Then(@"I receive a list of validation errors in the body of the message")]
+        public void ThenIReceiveAListOfValidationErrorsInTheBodyOfTheMessage()
+        {
+            ScenarioContext.Current.Pending();
+        }
     }
 }
