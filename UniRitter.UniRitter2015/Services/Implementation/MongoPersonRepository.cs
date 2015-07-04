@@ -22,31 +22,36 @@ namespace UniRitter.UniRitter2015.Services.Implementation
         public PersonModel Add(PersonModel model)
         {
             model.id = Guid.NewGuid();
-            collection.InsertOneAsync(model);
+            collection.InsertOneAsync(model).Wait();
             return model;
         }
 
         public bool Delete(Guid modelId)
         {
-            var result = collection.DeleteOneAsync(p => p.id == modelId).Result;
+            var result = collection.DeleteOneAsync(
+                p => p.id == modelId).Result;
+
             return result.DeletedCount > 0;
         }
 
         public PersonModel Update(Guid id, PersonModel model)
         {
             collection.ReplaceOneAsync(p => p.id == id, model).Wait();
+
             return model;
         }
 
         public IEnumerable<PersonModel> GetAll()
         {
-            var data = collection.Find(p => true).ToListAsync<PersonModel>();
+            var data = collection.Find(
+                p => true).ToListAsync<PersonModel>();
             return data.Result;
         }
 
         public PersonModel GetById(Guid id)
         {
-            var data = collection.Find(p => p.id == id).FirstOrDefaultAsync();
+            var data = collection.Find(
+                p => p.id == id).FirstOrDefaultAsync();
             return data.Result;
         }
     }
