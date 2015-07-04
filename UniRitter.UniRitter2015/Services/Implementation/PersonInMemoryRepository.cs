@@ -20,9 +20,10 @@ namespace UniRitter.UniRitter2015.Services.Implementation
             return model;
         }
 
-        public void Delete(Guid modelId)
+        public bool Delete(Guid modelId)
         {
             Data.Remove(modelId);
+            return true;
         }
 
         public PersonModel Update(Guid id, PersonModel model)
