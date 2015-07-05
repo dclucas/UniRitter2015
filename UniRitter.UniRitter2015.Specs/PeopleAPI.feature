@@ -40,10 +40,10 @@ Background: Given an API populated with the following people:
 
 	@integrated
 	Scenario Outline: Invalid person data on insertion
-	Given an invalid person resource
-	When I post it to the /people API endpoint
+	Given a <case> resource
+	When I post <data> to the /people API endpoint
 	Then I receive an error (code 400) return message
-	And I receive a message listing all validation errors
+	And I receive a message that conforms <messageRegex>
 	Examples:
 	| case                | data																			| messageRegex		|
 	| "missing firstName" | "{'LastName':'de Tal','Email':'fulano@email.com','Url':'http://fulano.com.br'}" | @".*firstName.*"	|
