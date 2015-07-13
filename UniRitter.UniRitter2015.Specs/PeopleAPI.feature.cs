@@ -65,6 +65,62 @@ namespace UniRitter.UniRitter2015.Specs
             testRunner.CollectScenarioErrors();
         }
         
+        public virtual void FeatureBackground()
+        {
+#line 6
+#line hidden
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Get all people entries")]
+        [NUnit.Framework.CategoryAttribute("integrated")]
+        public virtual void GetAllPeopleEntries()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Get all people entries", new string[] {
+                        "integrated"});
+#line 14
+ this.ScenarioSetup(scenarioInfo);
+#line 6
+this.FeatureBackground();
+#line 15
+ testRunner.Given("the populated API", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 16
+ testRunner.When("I GET from the /people API endpoint", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 17
+ testRunner.Then("I get a list containing the populated resources", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Get a specific person entry")]
+        [NUnit.Framework.CategoryAttribute("integrated")]
+        [NUnit.Framework.TestCaseAttribute("\"8d0d477f-1378-4fc1-bb47-29eb3ea959e1\"", null)]
+        [NUnit.Framework.TestCaseAttribute("\"58b024e9-57dc-49e4-8fc9-2d4d82bf1670\"", null)]
+        [NUnit.Framework.TestCaseAttribute("\"1a5fd0be-d654-40ff-8190-ca59e3b52e76\"", null)]
+        public virtual void GetASpecificPersonEntry(string id, string[] exampleTags)
+        {
+            string[] @__tags = new string[] {
+                    "integrated"};
+            if ((exampleTags != null))
+            {
+                @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));
+            }
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Get a specific person entry", @__tags);
+#line 20
+ this.ScenarioSetup(scenarioInfo);
+#line 6
+this.FeatureBackground();
+#line 21
+ testRunner.Given("the populated API", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 22
+ testRunner.When(string.Format("I GET from the /people/{0} API endpoint", id), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 23
+ testRunner.Then("I get the person record that matches that id", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Add a person")]
         [NUnit.Framework.CategoryAttribute("integrated")]
@@ -72,20 +128,33 @@ namespace UniRitter.UniRitter2015.Specs
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add a person", new string[] {
                         "integrated"});
-#line 7
-this.ScenarioSetup(scenarioInfo);
-#line 8
- testRunner.Given("a valid person resource", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 9
+#line 31
+ this.ScenarioSetup(scenarioInfo);
+#line 6
+this.FeatureBackground();
+#line hidden
+            TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
+                        "firstName",
+                        "lastName",
+                        "email",
+                        "url"});
+            table1.AddRow(new string[] {
+                        "\"Josh\"",
+                        "\"Doe\"",
+                        "\"josh@email.com\"",
+                        "\"http://josh.doe.com\""});
+#line 32
+ testRunner.Given("a person resource as described below:", ((string)(null)), table1, "Given ");
+#line 35
  testRunner.When("I post it to the /people API endpoint", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 10
+#line 36
  testRunner.Then("I receive a success (code 200) return message", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 11
+#line 37
  testRunner.And("I receive the posted resource", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 12
+#line 38
  testRunner.And("the posted resource now has an ID", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 13
- testRunner.And("the person is added to the database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 39
+ testRunner.And("I can fetch it from the API", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -93,19 +162,27 @@ this.ScenarioSetup(scenarioInfo);
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Invalid person data on insertion")]
         [NUnit.Framework.CategoryAttribute("integrated")]
-        public virtual void InvalidPersonDataOnInsertion()
+        [NUnit.Framework.TestCaseAttribute("\"missing firstName\"", "\"{\'LastName\':\'de Tal\',\'Email\':\'fulano@email.com\',\'Url\':\'http://fulano.com.br\'}\"", "@\".*firstName.*\"", null)]
+        public virtual void InvalidPersonDataOnInsertion(string @case, string data, string messageRegex, string[] exampleTags)
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Invalid person data on insertion", new string[] {
-                        "integrated"});
-#line 16
-this.ScenarioSetup(scenarioInfo);
-#line 17
+            string[] @__tags = new string[] {
+                    "integrated"};
+            if ((exampleTags != null))
+            {
+                @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));
+            }
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Invalid person data on insertion", @__tags);
+#line 42
+ this.ScenarioSetup(scenarioInfo);
+#line 6
+this.FeatureBackground();
+#line 43
  testRunner.Given("an invalid person resource", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 18
+#line 44
  testRunner.When("I post it to the /people API endpoint", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 19
+#line 45
  testRunner.Then("I receive an error (code 400) return message", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 20
+#line 46
  testRunner.And("I receive a message listing all validation errors", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
