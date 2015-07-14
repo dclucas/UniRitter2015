@@ -19,7 +19,7 @@ namespace UniRitter.UniRitter2015.Models
         [MaxLength(50)]
         public string title { get; set; }
 
-        public PersonModel author {get; set;}
+        public Guid? author { get; set; }
 
     }
 }
