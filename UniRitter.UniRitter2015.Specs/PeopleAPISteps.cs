@@ -30,7 +30,7 @@ namespace UniRitter.UniRitter2015.Specs
         {
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri("http://localhost:49556/api/");
+                client.BaseAddress = new Uri("http://localhost:49556/");
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 act(client);

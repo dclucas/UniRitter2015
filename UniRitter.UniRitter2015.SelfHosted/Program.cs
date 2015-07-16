@@ -22,6 +22,7 @@ namespace UniRitter.UniRitter2015.SelfHosted
         {
             string baseAddress = "http://localhost:9000/";
             
+            Console.WriteLine("Starting server at {0}. Hit any key to stop it.", baseAddress);
             return WebApp.Start<Startup>(url: baseAddress);
         }
     }

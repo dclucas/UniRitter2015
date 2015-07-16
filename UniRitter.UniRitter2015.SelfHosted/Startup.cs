@@ -16,9 +16,15 @@ namespace UniRitter.UniRitter2015.SelfHosted
     {
         public void Configuration(IAppBuilder app)
         {
-            var config = new MyHttpConfiguration();
-            app.UseWebApi(config);
-            app.UseNinjectMiddleware(CreateKernel).UseNinjectWebApi(config);
+            var webApiConfiguration = new HttpConfiguration();
+            webApiConfiguration.Routes.MapHttpRoute(
+                name: "DefaultApi",
+                routeTemplate: "{controller}/{id}",
+                defaults: new { id = RouteParameter.Optional, controller = "values" });
+
+            webApiConfiguration.Formatters.Remove(webApiConfiguration.Formatters.XmlFormatter);
+
+            app.UseNinjectMiddleware(CreateKernel).UseNinjectWebApi(webApiConfiguration);
         }
 
         private static StandardKernel CreateKernel()
