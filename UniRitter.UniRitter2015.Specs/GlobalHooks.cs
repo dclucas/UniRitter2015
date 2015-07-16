@@ -13,65 +13,17 @@ namespace UniRitter.UniRitter2015.Specs
     [Binding]
     public sealed class GlobalHooks
     {
-        private static Process _iisProcess;
-
-
         [BeforeTestRun]
         public static void BeforeTestRun()
         {
-            string baseAddress = "http://localhost:9000/";
+            string baseAddress = "http://localhost:49556/";
 
             WebApp.Start<Startup>(url: baseAddress);
-
-            //UniRitter2015.SelfHosted.Program.StartApi();
-            //var thread = new Thread(StartIisExpress) { IsBackground = true };
-
-            //thread.Start();
         }
-
-        private static void StartIisExpress()
-        {
-            var startInfo = new ProcessStartInfo
-            {
-                WindowStyle = ProcessWindowStyle.Minimized,
-                ErrorDialog = true,
-                LoadUserProfile = true,
-                CreateNoWindow = false,
-                UseShellExecute = false,
-                Arguments = string.Format("/site:\"{0}\"", "UniRitter.UniRitter2015")
-            };
-
-            var programfiles = string.IsNullOrEmpty(startInfo.EnvironmentVariables["programfiles(x86)"])
-                                ? startInfo.EnvironmentVariables["programfiles"]
-                                : startInfo.EnvironmentVariables["programfiles(x86)"];
-
-            startInfo.FileName = programfiles + "\\IIS Express\\iisexpress.exe";
-
-
-            try
-            {
-                _iisProcess = new Process { StartInfo = startInfo };
-
-                _iisProcess.Start();
-                _iisProcess.WaitForExit();
-            }
-            catch (Exception exc)
-            {
-                throw exc;
-            }
-        }
-
 
         [AfterTestRun]
         public static void AfterTestRun()
         {
-            /*
-            if (_iisProcess.Handle != null && !_iisProcess.HasExited)
-            {
-                _iisProcess.CloseMainWindow();
-                _iisProcess.Dispose();
-            }
-             */
         }
     }
 }

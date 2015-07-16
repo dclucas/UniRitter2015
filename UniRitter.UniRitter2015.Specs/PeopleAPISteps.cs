@@ -30,7 +30,7 @@ namespace UniRitter.UniRitter2015.Specs
         {
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri("http://localhost:49556/");
+                client.BaseAddress = new Uri("http://localhost:49556/api/");
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 act(client);
@@ -40,12 +40,10 @@ namespace UniRitter.UniRitter2015.Specs
         [When(@"I post it to the /people API endpoint")]
         public void WhenIPostItToThePeopleAPIEndpoint()
         {
-            /*
             ExecuteAPI(c =>
             {
                 response = c.PostAsJsonAsync("people", personData).Result;
             });
-             */
         }
 
         private void CheckCode(int code) 
