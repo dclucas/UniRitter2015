@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Microsoft.Owin.Hosting;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using TechTalk.SpecFlow;
+using UniRitter.UniRitter2015.SelfHosted;
 
 namespace UniRitter.UniRitter2015.Specs
 {
@@ -17,9 +19,14 @@ namespace UniRitter.UniRitter2015.Specs
         [BeforeTestRun]
         public static void BeforeTestRun()
         {
-            var thread = new Thread(StartIisExpress) { IsBackground = true };
+            string baseAddress = "http://localhost:9000/";
 
-            thread.Start();
+            WebApp.Start<Startup>(url: baseAddress);
+
+            //UniRitter2015.SelfHosted.Program.StartApi();
+            //var thread = new Thread(StartIisExpress) { IsBackground = true };
+
+            //thread.Start();
         }
 
         private static void StartIisExpress()
@@ -58,11 +65,13 @@ namespace UniRitter.UniRitter2015.Specs
         [AfterTestRun]
         public static void AfterTestRun()
         {
+            /*
             if (_iisProcess.Handle != null && !_iisProcess.HasExited)
             {
                 _iisProcess.CloseMainWindow();
                 _iisProcess.Dispose();
             }
+             */
         }
     }
 }

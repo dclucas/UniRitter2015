@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniRitter.UniRitter2015", "UniRitter.UniRitter2015\UniRitter.UniRitter2015.csproj", "{AF26FCAE-2A6C-4CC0-A211-327515DB6485}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniRitter.UniRitter2015.Api", "UniRitter.UniRitter2015\UniRitter.UniRitter2015.Api.csproj", "{AF26FCAE-2A6C-4CC0-A211-327515DB6485}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniRitter.UniRitter2015.Specs", "UniRitter.UniRitter2015.Specs\UniRitter.UniRitter2015.Specs.csproj", "{EC223770-6B20-4F47-B128-CB27842DA01D}"
 EndProject
@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{13D803
 		.nuget\NuGet.exe = .nuget\NuGet.exe
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniRitter.UniRitter2015.SelfHosted", "UniRitter.UniRitter2015.SelfHosted\UniRitter.UniRitter2015.SelfHosted.csproj", "{C32AEFCD-2C2C-408C-BC31-D5A10730B004}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -28,6 +30,10 @@ Global
 		{EC223770-6B20-4F47-B128-CB27842DA01D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC223770-6B20-4F47-B128-CB27842DA01D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EC223770-6B20-4F47-B128-CB27842DA01D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C32AEFCD-2C2C-408C-BC31-D5A10730B004}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C32AEFCD-2C2C-408C-BC31-D5A10730B004}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C32AEFCD-2C2C-408C-BC31-D5A10730B004}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C32AEFCD-2C2C-408C-BC31-D5A10730B004}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
