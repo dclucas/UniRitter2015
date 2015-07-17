@@ -6,7 +6,9 @@ using System.Linq.Expressions;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using TechTalk.SpecFlow;
 using NUnit.Framework;
 using TechTalk.SpecFlow.Assist;
@@ -159,50 +161,33 @@ namespace UniRitter.UniRitter2015.Specs
             ScenarioContext.Current.Pending();
         }
 
-        [Then(@"I receive a message that conforms @""(.*)""")]
-        public void ThenIReceiveAMessageThatConforms(string p0)
+        [Given(@"(.+) resource")]
+        public void GivenAnInvalidResource(string resourceCase)
         {
-            ScenarioContext.Current.Pending();
+            // step purposefully left blank
         }
-        /*
-        [When(@"I GET from the /people/(.*)d(.*)f(.*)fc(.*)-bb(.*)eb(.*)ea(.*) API endpoint")]
-        public void WhenIGETFromThePeopleDffc_BbebeaAPIEndpoint(string p0, int p1, string p2, int p3, string p4, int p5, string p6)
-        {
-            ScenarioContext.Current.Pending();
-        }
-        
-        [Given(@"a missing firstName resource")]
-        public void GivenAMissingFirstNameResource()
-        {
-            ScenarioContext.Current.Pending();
-        }
-        
-        [When(@"I post \{""(.*)"":""(.*)"",""(.*)"":""(.*)"",""(.*)"":""(.*)""} to the /people API endpoint")]
-        public void WhenIPostToThePeopleAPIEndpoint(string p0, string p1, string p2, string p3, string p4, string p5)
-        {
-            ScenarioContext.Current.Pending();
-        }
-        
-        [Then(@"I receive a message that conforms \.\*firstName\.\*")]
-        public void ThenIReceiveAMessageThatConforms_FirstName_()
-        {
-            ScenarioContext.Current.Pending();
-        }
-         
-         */
+
         [Given(@"an API populated with the following people")]
         public void GivenAnAPIPopulatedWithTheFollowingPeople(Table table)
         {
             backgroundData = table.CreateSet<Person>();
-            /*
-            foreach (var row in backgroundData)
-            {
-                var postRes = client.PostAsJsonAsync("people", row).Result;
-                Assert.IsTrue(postRes.IsSuccessStatusCode);
-            }
-             */
             var mongoRepo = new MongoPersonRepository();
             mongoRepo.Upsert(table.CreateSet<PersonModel>());
         }
+
+        [When(@"I post the following data to the /people API endpoint: (.+)")]
+        public void WhenIPostTheFollowingDataToThePeopleAPIEndpoint(string jsonData)
+        {
+            personData = JsonConvert.DeserializeObject<Person>(jsonData);
+            response = client.PostAsJsonAsync("people", personData).Result;
+        }
+
+        [Then(@"I receive a message that conforms (.+)")]
+        public void ThenIReceiveAMessageThatConforms(string pattern)
+        {
+            var msg = response.Content.ReadAsStringAsync().Result;
+            StringAssert.IsMatch(pattern, msg);
+        }
+
     }
 }

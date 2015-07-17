@@ -42,7 +42,7 @@ Background:
 	@integrated
 	Scenario Outline: Invalid person data on insertion
 	Given a <case> resource
-	When I post <data> to the /people API endpoint
+	When I post the following data to the /people API endpoint: <data>
 	Then I receive an error (code 400) return message
 	And I receive a message that conforms <messageRegex>
 	Examples:
