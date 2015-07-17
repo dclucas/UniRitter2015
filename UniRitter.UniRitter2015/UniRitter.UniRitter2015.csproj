@@ -130,6 +130,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Implementation\MongoPersonRepository.cs" />
     <Compile Include="Services\Implementation\PersonInMemoryRepository.cs" />
+    <Compile Include="Services\Implementation\MongoPostRepository.cs" />
     <Compile Include="Services\IRepository.cs" />
   </ItemGroup>
   <ItemGroup>
