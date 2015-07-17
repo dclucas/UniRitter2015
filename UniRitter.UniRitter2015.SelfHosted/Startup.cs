@@ -1,12 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Reflection;
-using Owin;
+﻿using System.Reflection;
 using System.Web.Http;
 using Ninject;
 using Ninject.Web.Common.OwinHost;
 using Ninject.Web.WebApi.OwinHost;
+using Owin;
 using UniRitter.UniRitter2015.Models;
-using UniRitter.UniRitter2015.SelfHosted.Support;
 using UniRitter.UniRitter2015.Services;
 using UniRitter.UniRitter2015.Services.Implementation;
 
@@ -17,10 +15,8 @@ namespace UniRitter.UniRitter2015.SelfHosted
         public void Configuration(IAppBuilder app)
         {
             var webApiConfiguration = new HttpConfiguration();
-            webApiConfiguration.Routes.MapHttpRoute(
-                name: "DefaultApi",
-                routeTemplate: "{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional, controller = "values" });
+            webApiConfiguration.Routes.MapHttpRoute("DefaultApi", "{controller}/{id}",
+                new {id = RouteParameter.Optional, controller = "values"});
 
             webApiConfiguration.Formatters.Remove(webApiConfiguration.Formatters.XmlFormatter);
 
@@ -33,8 +29,8 @@ namespace UniRitter.UniRitter2015.SelfHosted
             kernel.Load(Assembly.GetExecutingAssembly());
 
             kernel.Bind<IRepository<PersonModel>>().To<MongoPersonRepository>();
-            
+
             return kernel;
-        }         
+        }
     }
 }

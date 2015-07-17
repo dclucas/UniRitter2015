@@ -1,16 +1,12 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Runtime.CompilerServices;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
-using TechTalk.SpecFlow;
 using NUnit.Framework;
+using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Assist;
 using UniRitter.UniRitter2015.Models;
 using UniRitter.UniRitter2015.Services.Implementation;
@@ -20,6 +16,13 @@ namespace UniRitter.UniRitter2015.Specs
     [Binding]
     public class PeopleAPISteps
     {
+        private readonly HttpClient client;
+        private IEnumerable<Person> backgroundData;
+        private string path;
+        private Person personData;
+        private HttpResponseMessage response;
+        private Person result;
+
         public PeopleAPISteps()
         {
             client = new HttpClient();
@@ -28,53 +31,15 @@ namespace UniRitter.UniRitter2015.Specs
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        class Person : IEquatable<Person>
-        {
-            public Guid? id { get; set; }
-            public string firstName { get; set; }
-            public string lastName { get; set; }
-            public string email { get; set; }
-            public string url { get; set; }
-
-            public override bool Equals(object obj)
-            {
-                if (obj != null)
-                {
-                    return Equals(obj as Person);
-                }
-                return false;
-            }
-
-            public bool Equals(Person other)
-            {
-                if (other == null) return false;
-
-                return
-                    this.id == other.id
-                    && this.firstName == other.firstName
-                    && this.lastName == other.lastName
-                    && this.email == other.email
-                    && this.url == other.url;
-
-            }
-        }
-
-        private Person personData;
-        private HttpResponseMessage response;
-        private Person result;
-        private HttpClient client;
-        private IEnumerable<Person> backgroundData;
-        private string path;
-        
         [When(@"I post it to the /people API endpoint")]
         public void WhenIPostItToThePeopleAPIEndpoint()
         {
             response = client.PostAsJsonAsync("people", personData).Result;
         }
 
-        private void CheckCode(int code) 
+        private void CheckCode(int code)
         {
-            Assert.That(response.StatusCode, Is.EqualTo((System.Net.HttpStatusCode)code));
+            Assert.That(response.StatusCode, Is.EqualTo((HttpStatusCode) code));
         }
 
         [Then(@"I receive a success \(code (.*)\) return message")]
@@ -82,14 +47,14 @@ namespace UniRitter.UniRitter2015.Specs
         {
             CheckCode(code);
         }
-        
+
         [Then(@"I receive the posted resource")]
         public void ThenIReceiveThePostedResource()
         {
             result = response.Content.ReadAsAsync<Person>().Result;
             Assert.That(result.firstName, Is.EqualTo(personData.firstName));
         }
-        
+
         [Then(@"the posted resource now has an ID")]
         public void ThenThePostedResourceNowHasAnID()
         {
@@ -126,9 +91,8 @@ namespace UniRitter.UniRitter2015.Specs
         [Then(@"I get a list containing the populated resources")]
         public void ThenIGetAListContainingThePopulatedResources()
         {
-            IEnumerable<Person> resourceList = response.Content.ReadAsAsync<IEnumerable<Person>>().Result;
+            var resourceList = response.Content.ReadAsAsync<IEnumerable<Person>>().Result;
             Assert.That(backgroundData, Is.SubsetOf(resourceList));
-            
         }
 
         [Then(@"the data matches that id")]
@@ -151,7 +115,7 @@ namespace UniRitter.UniRitter2015.Specs
         public void ThenICanFetchItFromTheAPI()
         {
             var id = result.id.Value;
-            var newEntry = client.GetAsync("people/" + id.ToString()).Result;
+            var newEntry = client.GetAsync("people/" + id).Result;
             Assert.That(newEntry, Is.Not.Null);
         }
 
@@ -189,5 +153,34 @@ namespace UniRitter.UniRitter2015.Specs
             StringAssert.IsMatch(pattern, msg);
         }
 
+        private class Person : IEquatable<Person>
+        {
+            public Guid? id { get; set; }
+            public string firstName { get; set; }
+            public string lastName { get; set; }
+            public string email { get; set; }
+            public string url { get; set; }
+
+            public bool Equals(Person other)
+            {
+                if (other == null) return false;
+
+                return
+                    id == other.id
+                    && firstName == other.firstName
+                    && lastName == other.lastName
+                    && email == other.email
+                    && url == other.url;
+            }
+
+            public override bool Equals(object obj)
+            {
+                if (obj != null)
+                {
+                    return Equals(obj as Person);
+                }
+                return false;
+            }
+        }
     }
 }

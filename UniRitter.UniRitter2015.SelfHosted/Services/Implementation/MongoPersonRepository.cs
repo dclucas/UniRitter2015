@@ -1,16 +1,14 @@
-﻿using MongoDB.Driver;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using MongoDB.Driver;
 using UniRitter.UniRitter2015.Models;
 
 namespace UniRitter.UniRitter2015.Services.Implementation
 {
     public class MongoPersonRepository : IRepository<PersonModel>
     {
-        private IMongoDatabase database;
-        private IMongoCollection<PersonModel> collection;
+        private readonly IMongoCollection<PersonModel> collection;
+        private readonly IMongoDatabase database;
 
         public MongoPersonRepository()
         {
@@ -23,7 +21,7 @@ namespace UniRitter.UniRitter2015.Services.Implementation
         {
             if (!model.id.HasValue)
             {
-                model.id = Guid.NewGuid();                
+                model.id = Guid.NewGuid();
             }
             collection.InsertOneAsync(model).Wait();
             return model;
@@ -47,7 +45,7 @@ namespace UniRitter.UniRitter2015.Services.Implementation
         public IEnumerable<PersonModel> GetAll()
         {
             var data = collection.Find(
-                p => true).ToListAsync<PersonModel>();
+                p => true).ToListAsync();
             return data.Result;
         }
 
@@ -68,7 +66,7 @@ namespace UniRitter.UniRitter2015.Services.Implementation
     UpsertFlags.Upsert
 );
              */
-            var options = new UpdateOptions() { IsUpsert = true };
+            var options = new UpdateOptions {IsUpsert = true};
             foreach (var person in peopleList)
             {
                 collection.ReplaceOneAsync(model => model.id == person.id, person, options);
