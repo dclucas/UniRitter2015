@@ -1,6 +1,5 @@
 ﻿using Microsoft.Owin.Hosting;
 using TechTalk.SpecFlow;
-using UniRitter.UniRitter2015.SelfHosted;
 
 namespace UniRitter.UniRitter2015.Specs
 {

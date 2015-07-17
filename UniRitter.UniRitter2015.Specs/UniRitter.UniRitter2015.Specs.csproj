@@ -109,9 +109,9 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\UniRitter.UniRitter2015.SelfHosted\UniRitter.UniRitter2015.SelfHosted.csproj">
-      <Project>{c32aefcd-2c2c-408c-bc31-d5a10730b004}</Project>
-      <Name>UniRitter.UniRitter2015.SelfHosted</Name>
+    <ProjectReference Include="..\UniRitter.UniRitter2015\UniRitter.UniRitter2015.Api.csproj">
+      <Project>{ec0dd017-b973-452a-803c-828268a5c57d}</Project>
+      <Name>UniRitter.UniRitter2015.Api</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

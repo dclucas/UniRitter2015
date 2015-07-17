@@ -1,32 +1,24 @@
-﻿using Microsoft.Owin.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Web;
-using UniRitter.UniRitter2015.App_Start;
+﻿using System;
+using Microsoft.Owin.Hosting;
 
 namespace UniRitter.UniRitter2015
 {
     public class Program
     {
-        static void Main()
+        private static void Main(string[] args)
         {
-            string baseAddress = "http://localhost:9000/";
-
-            // Start OWIN host 
-            using (WebApp.Start<ApplicationConfig>(url: baseAddress))
+            using (StartApi())
             {
-                // Create HttpCient and make a request to api/values 
-                HttpClient client = new HttpClient();
-
-                var response = client.GetAsync(baseAddress + "api/values").Result;
-
-                Console.WriteLine(response);
-                Console.WriteLine(response.Content.ReadAsStringAsync().Result);
+                Console.ReadLine();
             }
+        }
 
-            Console.ReadLine();
-        } 
+        public static IDisposable StartApi()
+        {
+            var baseAddress = "http://localhost:9000/";
+
+            Console.WriteLine("Starting server at {0}. Hit any key to stop it.", baseAddress);
+            return WebApp.Start<Startup>(baseAddress);
+        }
     }
 }

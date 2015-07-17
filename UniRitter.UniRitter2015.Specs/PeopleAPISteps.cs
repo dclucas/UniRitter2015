@@ -181,6 +181,11 @@ namespace UniRitter.UniRitter2015.Specs
                 }
                 return false;
             }
+
+            public override int GetHashCode()
+            {
+                return id.GetHashCode();
+            }
         }
     }
 }
