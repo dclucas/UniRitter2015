@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Web;
 using UniRitter.UniRitter2015.Models;
 
 namespace UniRitter.UniRitter2015.Services.Implementation

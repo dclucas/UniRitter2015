@@ -1,63 +1,45 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Threading.Tasks;
-using TechTalk.SpecFlow;
+using Newtonsoft.Json;
 using NUnit.Framework;
+using TechTalk.SpecFlow;
+using TechTalk.SpecFlow.Assist;
+using UniRitter.UniRitter2015.Models;
+using UniRitter.UniRitter2015.Services.Implementation;
 
 namespace UniRitter.UniRitter2015.Specs
 {
     [Binding]
     public class PeopleAPISteps
     {
-        class Person
+        private readonly HttpClient client;
+        private IEnumerable<Person> backgroundData;
+        private string path;
+        private Person personData;
+        private HttpResponseMessage response;
+        private Person result;
+
+        public PeopleAPISteps()
         {
-            public Guid? id { get; set; }
-            public string firstName { get; set; }
-            public string lastName { get; set; }
-            public string email { get; set; }
-            public string url { get; set; }
+            client = new HttpClient();
+            client.BaseAddress = new Uri("http://localhost:49556/");
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        class FullMessage
-        {
-            public Guid? id { get; set; }
-            public string message { get; set; }
-        }
-
-        Person personData;
-        FullMessage messageData;
-        HttpResponseMessage response;
-        Person result;
-
-        [Given(@"a valid person resource")]
-        public void GivenAValidPersonResource()
-        {
-            personData = new Person {
-                firstName = "Fulano",
-                lastName = "de Tal",
-                email = "fulano@gmail.com",
-                url = "http://fulano.com.br"
-            };
-
-        }
-        
         [When(@"I post it to the /people API endpoint")]
         public void WhenIPostItToThePeopleAPIEndpoint()
         {
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri("http://localhost:49556/");
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                response = client.PostAsJsonAsync("people", personData).Result;                
-            }
+            response = client.PostAsJsonAsync("people", personData).Result;
         }
 
-        private void CheckCode(int code) 
+        private void CheckCode(int code)
         {
-            Assert.That(response.StatusCode, Is.EqualTo((System.Net.HttpStatusCode)code));
+            Assert.That(response.StatusCode, Is.EqualTo((HttpStatusCode) code));
         }
 
         [Then(@"I receive a success \(code (.*)\) return message")]
@@ -65,38 +47,18 @@ namespace UniRitter.UniRitter2015.Specs
         {
             CheckCode(code);
         }
-        
+
         [Then(@"I receive the posted resource")]
         public void ThenIReceiveThePostedResource()
         {
             result = response.Content.ReadAsAsync<Person>().Result;
             Assert.That(result.firstName, Is.EqualTo(personData.firstName));
         }
-        
+
         [Then(@"the posted resource now has an ID")]
         public void ThenThePostedResourceNowHasAnID()
         {
             Assert.That(result.id, Is.Not.Null);
-        }
-
-        [Then(@"the person is added to the database")]
-        public void ThenThePersonIsAddedToTheDatabase()
-        {
-            ScenarioContext.Current.Pending();
-        }
-
-
-        //Scenario Invalid person data on insertion
-        [Given(@"an invalid person resource")]
-        public void GivenAnInvalidPersonResource()
-        {
-            personData = new Person
-            {
-                firstName = null,
-                lastName = "de Tal",
-                email = "fulano",
-                url = "http://fulano.com.br"
-            };
         }
 
         [Then(@"I receive an error \(code (.*)\) return message")]
@@ -113,88 +75,117 @@ namespace UniRitter.UniRitter2015.Specs
             Assert.That(validationMessage, Contains.Substring("email"));
         }
 
-
-        //Scenario: Valid update
-        [Given(@"an existing person resource")]
-        public void GivenAnExistingPersonResource()
+        [Given(@"the populated API")]
+        public void GivenThePopulatedAPI()
         {
-            personData = new Person
-            {
-                firstName = "Diego",
-                lastName = "Ritzel",
-                email = "diego@sistemasd.com.br",
-                url = "http://fulano.com.br"
-            };
+            // This step has been left blank -- data seeding occurs in the backgorund step
         }
 
-        [Given(@"a valid update message to that resource")]
-        public void GivenAValidUpdateMessageToThatResource()
+        [When(@"I GET from the /(.+) API endpoint")]
+        public void WhenIGETFromTheAPIEndpoint(string path)
         {
-            messageData = new FullMessage
-            {
-                message = "Cadastrado com sucesso"
-            };
+            this.path = path;
+            response = client.GetAsync(path).Result;
         }
 
-        //TODO
-        [When(@"I run a PUT command against the /people endpoint")]
-        public void WhenIRunAPutCommandAgainstThePeopleEndpoint()
+        [Then(@"I get a list containing the populated resources")]
+        public void ThenIGetAListContainingThePopulatedResources()
         {
-            ScenarioContext.Current.Pending();
+            var resourceList = response.Content.ReadAsAsync<IEnumerable<Person>>().Result;
+            Assert.That(backgroundData, Is.SubsetOf(resourceList));
         }
 
-        [Then(@"I receive a success \(code (.*)\) status message")]
-        public void ThenIReceiveASuccessCodeStatusMessage(int code)
+        [Then(@"the data matches that id")]
+        public void ThenIGetThePersonRecordThatMatchesThatId()
         {
-            CheckCode(code);
-        }
-
-        [Then(@"I receive the updated resource in the body of the message")]
-        public void ThenIReceiveTheUpdatedResourceInTheBodyOfTheMessage()
-        {
+            var id = new Guid(path.Substring(path.LastIndexOf('/') + 1));
             result = response.Content.ReadAsAsync<Person>().Result;
-            Assert.That("Diego", Is.EqualTo(personData.firstName));
+            var expected = backgroundData.Single(p => p.id == id);
+            Assert.That(result, Is.EqualTo(expected));
         }
 
-        //Scenario: Invalid update
-        //TODO
-        [Given(@"an invalid update message to that resource")]
-        public void ThenAnInvalidUpdateMessageToThatResource()
+        [Given(@"a person resource as described below:")]
+        public void GivenAPersonResourceAsDescribedBelow(Table table)
+        {
+            personData = new Person();
+            table.FillInstance(personData);
+        }
+
+        [Then(@"I can fetch it from the API")]
+        public void ThenICanFetchItFromTheAPI()
+        {
+            var id = result.id.Value;
+            var newEntry = client.GetAsync("people/" + id).Result;
+            Assert.That(newEntry, Is.Not.Null);
+        }
+
+        [Given(@"a ""(.*)"" resource")]
+        public void GivenAResource(string p0)
         {
             ScenarioContext.Current.Pending();
         }
 
-        //TODO
-        [Then(@"I receive an error \(code (.*)\) status message")]
-        public void ThenIReceiveAnErrorCodeStatusMessage(int code)
+        [Given(@"(.+) resource")]
+        public void GivenAnInvalidResource(string resourceCase)
         {
-            ScenarioContext.Current.Pending();
+            // step purposefully left blank
         }
 
-        //TODO
-        [Then(@"I receive a list of validation errors in the body of the message")]
-        public void ThenIReceiveAListOfValidationErrorsInTheBodyOfTheMessage()
+        [Given(@"an API populated with the following people")]
+        public void GivenAnAPIPopulatedWithTheFollowingPeople(Table table)
         {
-            ScenarioContext.Current.Pending();
+            backgroundData = table.CreateSet<Person>();
+            var mongoRepo = new MongoPersonRepository();
+            mongoRepo.Upsert(table.CreateSet<PersonModel>());
         }
 
-        //Scenario: Add a valid post
-	    //Given a valid post resource
-        [Given(@"a valid post resource")]
-        public void GivenAValidPostResource()
+        [When(@"I post the following data to the /people API endpoint: (.+)")]
+        public void WhenIPostTheFollowingDataToThePeopleAPIEndpoint(string jsonData)
         {
-            result = response.Content.ReadAsAsync<Person>().Result;
-            Assert.That(result.firstName, Is.EqualTo(personData.firstName));
+            personData = JsonConvert.DeserializeObject<Person>(jsonData);
+            response = client.PostAsJsonAsync("people", personData).Result;
         }
 
+        [Then(@"I receive a message that conforms (.+)")]
+        public void ThenIReceiveAMessageThatConforms(string pattern)
+        {
+            var msg = response.Content.ReadAsStringAsync().Result;
+            StringAssert.IsMatch(pattern, msg);
+        }
 
-	    //When I post is to the /posts endpoint
+        private class Person : IEquatable<Person>
+        {
+            public Guid? id { get; set; }
+            public string firstName { get; set; }
+            public string lastName { get; set; }
+            public string email { get; set; }
+            public string url { get; set; }
 
-	    //Then I get a success (code 201) response code
+            public bool Equals(Person other)
+            {
+                if (other == null) return false;
 
-	    //And I receive the posted resource
+                return
+                    id == other.id
+                    && firstName == other.firstName
+                    && lastName == other.lastName
+                    && email == other.email
+                    && url == other.url;
+            }
 
-	    //And the resource id is populated
+            public override bool Equals(object obj)
+            {
+                if (obj != null)
+                {
+                    return Equals(obj as Person);
+                }
+                return false;
+            }
 
+            public override int GetHashCode()
+            {
+                return id.GetHashCode();
+            }
+        }
     }
 }
