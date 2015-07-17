@@ -21,7 +21,10 @@ namespace UniRitter.UniRitter2015.Services.Implementation
 
         public PersonModel Add(PersonModel model)
         {
-            model.id = Guid.NewGuid();
+            if (!model.id.HasValue)
+            {
+                model.id = Guid.NewGuid();                
+            }
             collection.InsertOneAsync(model).Wait();
             return model;
         }
@@ -53,6 +56,23 @@ namespace UniRitter.UniRitter2015.Services.Implementation
             var data = collection.Find(
                 p => p.id == id).FirstOrDefaultAsync();
             return data.Result;
+        }
+
+        public void Upsert(IEnumerable<PersonModel> peopleList)
+        {
+            //collection.UpdateManyAsync()
+            /*
+             _collection.Update(
+    Query.EQ("UUID", thing.UUID),
+    Update.Replace(thing),
+    UpsertFlags.Upsert
+);
+             */
+            var options = new UpdateOptions() { IsUpsert = true };
+            foreach (var person in peopleList)
+            {
+                collection.ReplaceOneAsync(model => model.id == person.id, person, options);
+            }
         }
     }
 }

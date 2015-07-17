@@ -3,11 +3,12 @@
 	As a blog owner
 	I want to have an API that allows my apps to manage user information
 
-Background: Given an API populated with the following people
-	| id										| firstName | lastName	| email				| url					|
-	| "8d0d477f-1378-4fc1-bb47-29eb3ea959e1"	| "John"	| "Doe"		| "john@email.com"	| "http://john.doe.com"	|
-	| "58b024e9-57dc-49e4-8fc9-2d4d82bf1670"	| "Jane"	| "Doe"		| "jane@email.com"	| "http://jane.doe.com"	|
-	| "1a5fd0be-d654-40ff-8190-ca59e3b52e76"	| "Jack"	| "Doe"		| "jack@email.com"	| "http://jack.doe.com"	|
+Background: 
+	Given an API populated with the following people
+	| id									| firstName | lastName	| email				| url					|
+	| 8d0d477f-1378-4fc1-bb47-29eb3ea959e1	| John		| Doe		| john@email.com	| http://john.doe.com	|
+	| 58b024e9-57dc-49e4-8fc9-2d4d82bf1670	| Jane		| Doe		| jane@email.com	| http://jane.doe.com	|
+	| 1a5fd0be-d654-40ff-8190-ca59e3b52e76	| Jack		| Doe		| jack@email.com	| http://jack.doe.com	|
 
 
 	@integrated

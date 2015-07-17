@@ -1,12 +1,17 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using TechTalk.SpecFlow;
 using NUnit.Framework;
 using TechTalk.SpecFlow.Assist;
+using UniRitter.UniRitter2015.Models;
+using UniRitter.UniRitter2015.Services.Implementation;
 
 namespace UniRitter.UniRitter2015.Specs
 {
@@ -21,21 +26,43 @@ namespace UniRitter.UniRitter2015.Specs
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        class Person
+        class Person : IEquatable<Person>
         {
             public Guid? id { get; set; }
             public string firstName { get; set; }
             public string lastName { get; set; }
             public string email { get; set; }
             public string url { get; set; }
+
+            public override bool Equals(object obj)
+            {
+                if (obj != null)
+                {
+                    return Equals(obj as Person);
+                }
+                return false;
+            }
+
+            public bool Equals(Person other)
+            {
+                if (other == null) return false;
+
+                return
+                    this.id == other.id
+                    && this.firstName == other.firstName
+                    && this.lastName == other.lastName
+                    && this.email == other.email
+                    && this.url == other.url;
+
+            }
         }
 
         private Person personData;
         private HttpResponseMessage response;
         private Person result;
         private HttpClient client;
-
-
+        private IEnumerable<Person> backgroundData;
+        
         [When(@"I post it to the /people API endpoint")]
         public void WhenIPostItToThePeopleAPIEndpoint()
         {
@@ -83,25 +110,27 @@ namespace UniRitter.UniRitter2015.Specs
         [Given(@"the populated API")]
         public void GivenThePopulatedAPI()
         {
-            ScenarioContext.Current.Pending();
+            // This step has been left blank -- data seeding occurs in the backgorund step
         }
 
-        [When(@"I GET from the /people API endpoint")]
-        public void WhenIGETFromThePeopleAPIEndpoint()
+        [When(@"I GET from the /(.+) API endpoint")]
+        public void WhenIGETFromTheAPIEndpoint(string path)
         {
-            ScenarioContext.Current.Pending();
+            response = client.GetAsync(path).Result;
         }
 
         [Then(@"I get a list containing the populated resources")]
         public void ThenIGetAListContainingThePopulatedResources()
         {
-            ScenarioContext.Current.Pending();
-        }
+            IEnumerable<Person> resourceList = response.Content.ReadAsAsync<IEnumerable<Person>>().Result;
+            Assert.That(backgroundData, Is.SubsetOf(resourceList));
+            foreach (var expectedData in backgroundData)
+            {
+                //Assert.That(resourceList, Contains(expectedData));
+                //CollectionAssert.Contains(resourceList, expectedData);
 
-        [When(@"I GET from the /people/""(.*)"" API endpoint")]
-        public void WhenIGETFromThePeopleAPIEndpoint(string p0)
-        {
-            ScenarioContext.Current.Pending();
+            }
+            
         }
 
         [Then(@"I get the person record that matches that id")]
@@ -165,7 +194,16 @@ namespace UniRitter.UniRitter2015.Specs
         [Given(@"an API populated with the following people")]
         public void GivenAnAPIPopulatedWithTheFollowingPeople(Table table)
         {
-            Assert.That(table.RowCount, Is.GreaterThan(0));
+            backgroundData = table.CreateSet<Person>();
+            /*
+            foreach (var row in backgroundData)
+            {
+                var postRes = client.PostAsJsonAsync("people", row).Result;
+                Assert.IsTrue(postRes.IsSuccessStatusCode);
+            }
+             */
+            var mongoRepo = new MongoPersonRepository();
+            mongoRepo.Upsert(table.CreateSet<PersonModel>());
         }
     }
 }
