@@ -21,7 +21,7 @@ Background:
 	Scenario Outline: Get a specific person entry
 	Given the populated API
 	When I GET from the /people/<id> API endpoint
-	Then I get the person record that matches that id
+	Then the data matches that id
 	Examples:
 	| id									|
 	| 8d0d477f-1378-4fc1-bb47-29eb3ea959e1	|

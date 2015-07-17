@@ -62,6 +62,7 @@ namespace UniRitter.UniRitter2015.Specs
         private Person result;
         private HttpClient client;
         private IEnumerable<Person> backgroundData;
+        private string path;
         
         [When(@"I post it to the /people API endpoint")]
         public void WhenIPostItToThePeopleAPIEndpoint()
@@ -116,6 +117,7 @@ namespace UniRitter.UniRitter2015.Specs
         [When(@"I GET from the /(.+) API endpoint")]
         public void WhenIGETFromTheAPIEndpoint(string path)
         {
+            this.path = path;
             response = client.GetAsync(path).Result;
         }
 
@@ -124,19 +126,16 @@ namespace UniRitter.UniRitter2015.Specs
         {
             IEnumerable<Person> resourceList = response.Content.ReadAsAsync<IEnumerable<Person>>().Result;
             Assert.That(backgroundData, Is.SubsetOf(resourceList));
-            foreach (var expectedData in backgroundData)
-            {
-                //Assert.That(resourceList, Contains(expectedData));
-                //CollectionAssert.Contains(resourceList, expectedData);
-
-            }
             
         }
 
-        [Then(@"I get the person record that matches that id")]
+        [Then(@"the data matches that id")]
         public void ThenIGetThePersonRecordThatMatchesThatId()
         {
-            ScenarioContext.Current.Pending();
+            var id = new Guid(path.Substring(path.LastIndexOf('/') + 1));
+            result = response.Content.ReadAsAsync<Person>().Result;
+            var expected = backgroundData.Single(p => p.id == id);
+            Assert.That(result, Is.EqualTo(expected));
         }
 
         [Given(@"a person resource as described below:")]
