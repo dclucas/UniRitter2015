@@ -1,56 +1,45 @@
-﻿using Newtonsoft.Json.Linq;
 using System;
-using System.Linq.Expressions;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Threading.Tasks;
-using TechTalk.SpecFlow;
+using Newtonsoft.Json;
 using NUnit.Framework;
+using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Assist;
+using UniRitter.UniRitter2015.Models;
+using UniRitter.UniRitter2015.Services.Implementation;
 
 namespace UniRitter.UniRitter2015.Specs
 {
     [Binding]
     public class PeopleAPISteps
     {
-        class Person
+        private readonly HttpClient client;
+        private IEnumerable<Person> backgroundData;
+        private string path;
+        private Person personData;
+        private HttpResponseMessage response;
+        private Person result;
+
+        public PeopleAPISteps()
         {
-            public Guid? id { get; set; }
-            public string firstName { get; set; }
-            public string lastName { get; set; }
-            public string email { get; set; }
-            public string url { get; set; }
+            client = new HttpClient();
+            client.BaseAddress = new Uri("http://localhost:49556/");
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        Person personData;
-        HttpResponseMessage response;
-        Person result;
-
-        private void ExecuteAPI(Action<HttpClient> act)
-        {
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri("http://localhost:49556/");
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                act(client);
-            }
-        }
-       
         [When(@"I post it to the /people API endpoint")]
         public void WhenIPostItToThePeopleAPIEndpoint()
         {
-            /*
-            ExecuteAPI(c =>
-            {
-                response = c.PostAsJsonAsync("people", personData).Result;
-            });
-             */
+            response = client.PostAsJsonAsync("people", personData).Result;
         }
 
-        private void CheckCode(int code) 
+        private void CheckCode(int code)
         {
-            Assert.That(response.StatusCode, Is.EqualTo((System.Net.HttpStatusCode)code));
+            Assert.That(response.StatusCode, Is.EqualTo((HttpStatusCode) code));
         }
 
         [Then(@"I receive a success \(code (.*)\) return message")]
@@ -58,36 +47,18 @@ namespace UniRitter.UniRitter2015.Specs
         {
             CheckCode(code);
         }
-        
+
         [Then(@"I receive the posted resource")]
         public void ThenIReceiveThePostedResource()
         {
             result = response.Content.ReadAsAsync<Person>().Result;
             Assert.That(result.firstName, Is.EqualTo(personData.firstName));
         }
-        
+
         [Then(@"the posted resource now has an ID")]
         public void ThenThePostedResourceNowHasAnID()
         {
             Assert.That(result.id, Is.Not.Null);
-        }
-
-        [Then(@"the person is added to the database")]
-        public void ThenThePersonIsAddedToTheDatabase()
-        {
-            ScenarioContext.Current.Pending();
-        }
-
-        [Given(@"an invalid person resource")]
-        public void GivenAnInvalidPersonResource()
-        {
-            personData = new Person
-            {
-                firstName = null,
-                lastName = "de Tal",
-                email = "fulano",
-                url = "http://fulano.com.br"
-            };
         }
 
         [Then(@"I receive an error \(code (.*)\) return message")]
@@ -107,48 +78,45 @@ namespace UniRitter.UniRitter2015.Specs
         [Given(@"the populated API")]
         public void GivenThePopulatedAPI()
         {
-            ScenarioContext.Current.Pending();
+            // This step has been left blank -- data seeding occurs in the backgorund step
         }
 
-        [When(@"I GET from the /people API endpoint")]
-        public void WhenIGETFromThePeopleAPIEndpoint()
+        [When(@"I GET from the /(.+) API endpoint")]
+        public void WhenIGETFromTheAPIEndpoint(string path)
         {
-            ScenarioContext.Current.Pending();
+            this.path = path;
+            response = client.GetAsync(path).Result;
         }
 
         [Then(@"I get a list containing the populated resources")]
         public void ThenIGetAListContainingThePopulatedResources()
         {
-            ScenarioContext.Current.Pending();
+            var resourceList = response.Content.ReadAsAsync<IEnumerable<Person>>().Result;
+            Assert.That(backgroundData, Is.SubsetOf(resourceList));
         }
 
-        [When(@"I GET from the /people/""(.*)"" API endpoint")]
-        public void WhenIGETFromThePeopleAPIEndpoint(string p0)
-        {
-            ScenarioContext.Current.Pending();
-        }
-
-        [Then(@"I get the person record that matches that id")]
+        [Then(@"the data matches that id")]
         public void ThenIGetThePersonRecordThatMatchesThatId()
         {
-            ScenarioContext.Current.Pending();
+            var id = new Guid(path.Substring(path.LastIndexOf('/') + 1));
+            result = response.Content.ReadAsAsync<Person>().Result;
+            var expected = backgroundData.Single(p => p.id == id);
+            Assert.That(result, Is.EqualTo(expected));
         }
 
         [Given(@"a person resource as described below:")]
         public void GivenAPersonResourceAsDescribedBelow(Table table)
         {
-            ExecuteAPI(c =>
-            {
-                var person = new Person();
-                table.FillInstance(person);
-                response = c.PostAsJsonAsync("people", person).Result;
-            });
+            personData = new Person();
+            table.FillInstance(personData);
         }
 
         [Then(@"I can fetch it from the API")]
         public void ThenICanFetchItFromTheAPI()
         {
-            ScenarioContext.Current.Pending();
+            var id = result.id.Value;
+            var newEntry = client.GetAsync("people/" + id).Result;
+            Assert.That(newEntry, Is.Not.Null);
         }
 
         [Given(@"a ""(.*)"" resource")]
@@ -157,66 +125,67 @@ namespace UniRitter.UniRitter2015.Specs
             ScenarioContext.Current.Pending();
         }
 
-        [When(@"I post ""(.*)"" to the /people API endpoint")]
-        public void WhenIPostToThePeopleAPIEndpoint(string p0)
+        [Given(@"(.+) resource")]
+        public void GivenAnInvalidResource(string resourceCase)
         {
-            ScenarioContext.Current.Pending();
+            // step purposefully left blank
         }
 
-        [Then(@"I receive a message that conforms @""(.*)""")]
-        public void ThenIReceiveAMessageThatConforms(string p0)
+        [Given(@"an API populated with the following people")]
+        public void GivenAnAPIPopulatedWithTheFollowingPeople(Table table)
         {
-            ScenarioContext.Current.Pending();
+            backgroundData = table.CreateSet<Person>();
+            var mongoRepo = new MongoPersonRepository();
+            mongoRepo.Upsert(table.CreateSet<PersonModel>());
         }
 
-        [Given(@"an existing person resource")]
-        public void GivenAnExistingPersonResource()
+        [When(@"I post the following data to the /people API endpoint: (.+)")]
+        public void WhenIPostTheFollowingDataToThePeopleAPIEndpoint(string jsonData)
         {
-            ScenarioContext.Current.Pending();
+            personData = JsonConvert.DeserializeObject<Person>(jsonData);
+            response = client.PostAsJsonAsync("people", personData).Result;
         }
 
-        [Given(@"a valid update message to that resource")]
-        public void GivenAValidUpdateMessageToThatResource()
+        [Then(@"I receive a message that conforms (.+)")]
+        public void ThenIReceiveAMessageThatConforms(string pattern)
         {
-            ScenarioContext.Current.Pending();
+            var msg = response.Content.ReadAsStringAsync().Result;
+            StringAssert.IsMatch(pattern, msg);
         }
 
-        [When(@"I run a PUT command against the /people endpoint")]
-        public void WhenIRunAPUTCommandAgainstThePeopleEndpoint()
+        private class Person : IEquatable<Person>
         {
-            ScenarioContext.Current.Pending();
+            public Guid? id { get; set; }
+            public string firstName { get; set; }
+            public string lastName { get; set; }
+            public string email { get; set; }
+            public string url { get; set; }
+
+            public bool Equals(Person other)
+            {
+                if (other == null) return false;
+
+                return
+                    id == other.id
+                    && firstName == other.firstName
+                    && lastName == other.lastName
+                    && email == other.email
+                    && url == other.url;
+            }
+
+            public override bool Equals(object obj)
+            {
+                if (obj != null)
+                {
+                    return Equals(obj as Person);
+                }
+                return false;
+            }
+
+            public override int GetHashCode()
+            {
+                return id.GetHashCode();
+            }
         }
-
-        [Then(@"I receive a success \(code (.*)\) status message")]
-        public void ThenIReceiveASuccessCodeStatusMessage(int p0)
-        {
-            ScenarioContext.Current.Pending();
-        }
-
-        [Then(@"I receive the updated resource in the body of the message")]
-        public void ThenIReceiveTheUpdatedResourceInTheBodyOfTheMessage()
-        {
-            ScenarioContext.Current.Pending();
-        }
-
-        [Given(@"an invalid update message to that resource")]
-        public void GivenAnInvalidUpdateMessageToThatResource()
-        {
-            ScenarioContext.Current.Pending();
-        }
-
-        [Then(@"I receive an error \(code (.*)\) status message")]
-        public void ThenIReceiveAnErrorCodeStatusMessage(int p0)
-        {
-            ScenarioContext.Current.Pending();
-        }
-
-        [Then(@"I receive a list of validation errors in the body of the message")]
-        public void ThenIReceiveAListOfValidationErrorsInTheBodyOfTheMessage()
-        {
-            ScenarioContext.Current.Pending();
-        }
-
-
     }
 }
