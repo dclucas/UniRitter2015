@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 namespace UniRitter.UniRitter2015.Models
 {
     public class PostModel
