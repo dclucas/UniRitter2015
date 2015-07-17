@@ -32,8 +32,8 @@ namespace UniRitter.UniRitter2015.Specs
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "People API", "In order to know who places posts and comments on my blog\nAs a blog owner\nI want " +
-                    "to have an API that allows my apps to manage user information", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "People API", "In order to know who places posts and comments on my blog\r\nAs a blog owner\r\nI wan" +
+                    "t to have an API that allows my apps to manage user information", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -95,9 +95,9 @@ this.FeatureBackground();
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Get a specific person entry")]
         [NUnit.Framework.CategoryAttribute("integrated")]
-        [NUnit.Framework.TestCaseAttribute("\"8d0d477f-1378-4fc1-bb47-29eb3ea959e1\"", null)]
-        [NUnit.Framework.TestCaseAttribute("\"58b024e9-57dc-49e4-8fc9-2d4d82bf1670\"", null)]
-        [NUnit.Framework.TestCaseAttribute("\"1a5fd0be-d654-40ff-8190-ca59e3b52e76\"", null)]
+        [NUnit.Framework.TestCaseAttribute("8d0d477f-1378-4fc1-bb47-29eb3ea959e1", null)]
+        [NUnit.Framework.TestCaseAttribute("58b024e9-57dc-49e4-8fc9-2d4d82bf1670", null)]
+        [NUnit.Framework.TestCaseAttribute("1a5fd0be-d654-40ff-8190-ca59e3b52e76", null)]
         public virtual void GetASpecificPersonEntry(string id, string[] exampleTags)
         {
             string[] @__tags = new string[] {
@@ -139,10 +139,10 @@ this.FeatureBackground();
                         "email",
                         "url"});
             table1.AddRow(new string[] {
-                        "\"Josh\"",
-                        "\"Doe\"",
-                        "\"josh@email.com\"",
-                        "\"http://josh.doe.com\""});
+                        "Josh",
+                        "Doe",
+                        "josh@email.com",
+                        "http://josh.doe.com"});
 #line 32
  testRunner.Given("a person resource as described below:", ((string)(null)), table1, "Given ");
 #line 35
@@ -162,7 +162,7 @@ this.FeatureBackground();
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Invalid person data on insertion")]
         [NUnit.Framework.CategoryAttribute("integrated")]
-        [NUnit.Framework.TestCaseAttribute("\"missing firstName\"", "\"{\'LastName\':\'de Tal\',\'Email\':\'fulano@email.com\',\'Url\':\'http://fulano.com.br\'}\"", "@\".*firstName.*\"", null)]
+        [NUnit.Framework.TestCaseAttribute("missing firstName", "{\"LastName\":\"de Tal\",\"Email\":\"fulano@email.com\",\"Url\":\"http://fulano.com.br\"}", ".*firstName.*", null)]
         public virtual void InvalidPersonDataOnInsertion(string @case, string data, string messageRegex, string[] exampleTags)
         {
             string[] @__tags = new string[] {

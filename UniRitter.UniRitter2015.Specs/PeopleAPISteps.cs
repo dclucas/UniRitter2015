@@ -13,6 +13,14 @@ namespace UniRitter.UniRitter2015.Specs
     [Binding]
     public class PeopleAPISteps
     {
+        public PeopleAPISteps()
+        {
+            client = new HttpClient();
+            client.BaseAddress = new Uri("http://localhost:49556/");
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        }
+
         class Person
         {
             public Guid? id { get; set; }
@@ -22,28 +30,16 @@ namespace UniRitter.UniRitter2015.Specs
             public string url { get; set; }
         }
 
-        Person personData;
-        HttpResponseMessage response;
-        Person result;
+        private Person personData;
+        private HttpResponseMessage response;
+        private Person result;
+        private HttpClient client;
 
-        private void ExecuteAPI(Action<HttpClient> act)
-        {
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri("http://localhost:49556/");
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                act(client);
-            }
-        }
-       
+
         [When(@"I post it to the /people API endpoint")]
         public void WhenIPostItToThePeopleAPIEndpoint()
         {
-            ExecuteAPI(c =>
-            {
-                response = c.PostAsJsonAsync("people", personData).Result;
-            });
+            response = client.PostAsJsonAsync("people", personData).Result;
         }
 
         private void CheckCode(int code) 
@@ -68,24 +64,6 @@ namespace UniRitter.UniRitter2015.Specs
         public void ThenThePostedResourceNowHasAnID()
         {
             Assert.That(result.id, Is.Not.Null);
-        }
-
-        [Then(@"the person is added to the database")]
-        public void ThenThePersonIsAddedToTheDatabase()
-        {
-            ScenarioContext.Current.Pending();
-        }
-
-        [Given(@"an invalid person resource")]
-        public void GivenAnInvalidPersonResource()
-        {
-            personData = new Person
-            {
-                firstName = null,
-                lastName = "de Tal",
-                email = "fulano",
-                url = "http://fulano.com.br"
-            };
         }
 
         [Then(@"I receive an error \(code (.*)\) return message")]
@@ -135,28 +113,20 @@ namespace UniRitter.UniRitter2015.Specs
         [Given(@"a person resource as described below:")]
         public void GivenAPersonResourceAsDescribedBelow(Table table)
         {
-            ExecuteAPI(c =>
-            {
-                var person = new Person();
-                table.FillInstance(person);
-                response = c.PostAsJsonAsync("people", person).Result;
-            });
+            personData = new Person();
+            table.FillInstance(personData);
         }
 
         [Then(@"I can fetch it from the API")]
         public void ThenICanFetchItFromTheAPI()
         {
-            ScenarioContext.Current.Pending();
+            var id = result.id.Value;
+            var newEntry = client.GetAsync("people/" + id.ToString()).Result;
+            Assert.That(newEntry, Is.Not.Null);
         }
 
         [Given(@"a ""(.*)"" resource")]
         public void GivenAResource(string p0)
-        {
-            ScenarioContext.Current.Pending();
-        }
-
-        [When(@"I post ""(.*)"" to the /people API endpoint")]
-        public void WhenIPostToThePeopleAPIEndpoint(string p0)
         {
             ScenarioContext.Current.Pending();
         }
@@ -166,6 +136,36 @@ namespace UniRitter.UniRitter2015.Specs
         {
             ScenarioContext.Current.Pending();
         }
-
+        /*
+        [When(@"I GET from the /people/(.*)d(.*)f(.*)fc(.*)-bb(.*)eb(.*)ea(.*) API endpoint")]
+        public void WhenIGETFromThePeopleDffc_BbebeaAPIEndpoint(string p0, int p1, string p2, int p3, string p4, int p5, string p6)
+        {
+            ScenarioContext.Current.Pending();
+        }
+        
+        [Given(@"a missing firstName resource")]
+        public void GivenAMissingFirstNameResource()
+        {
+            ScenarioContext.Current.Pending();
+        }
+        
+        [When(@"I post \{""(.*)"":""(.*)"",""(.*)"":""(.*)"",""(.*)"":""(.*)""} to the /people API endpoint")]
+        public void WhenIPostToThePeopleAPIEndpoint(string p0, string p1, string p2, string p3, string p4, string p5)
+        {
+            ScenarioContext.Current.Pending();
+        }
+        
+        [Then(@"I receive a message that conforms \.\*firstName\.\*")]
+        public void ThenIReceiveAMessageThatConforms_FirstName_()
+        {
+            ScenarioContext.Current.Pending();
+        }
+         
+         */
+        [Given(@"an API populated with the following people")]
+        public void GivenAnAPIPopulatedWithTheFollowingPeople(Table table)
+        {
+            Assert.That(table.RowCount, Is.GreaterThan(0));
+        }
     }
 }
