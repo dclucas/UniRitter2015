@@ -7,10 +7,23 @@ namespace UniRitter.UniRitter2015.Services.Implementation
 {
     public class MongoRepository<TModel> : IRepository<TModel> where TModel: class, IModel
     {
-        private readonly IMongoCollection<TModel> collection;
-        private readonly IMongoDatabase database;
+        private IMongoCollection<TModel> collection;
+        private IMongoDatabase database;
+
+        public MongoRepository()
+        {
+            var typeName = typeof(TModel).Name;
+            var collectionName = typeName.Substring(typeName.LastIndexOf("Model"));
+            SetupCollection(collectionName);
+
+        }
 
         public MongoRepository(string collectionName)
+        {
+            SetupCollection(collectionName);
+        }
+
+        private void SetupCollection(string collectionName)
         {
             var client = new MongoClient("mongodb://localhost");
             database = client.GetDatabase("uniritter");
