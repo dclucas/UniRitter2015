@@ -9,11 +9,11 @@ using UniRitter.UniRitter2015.Services;
 
 namespace UniRitter.UniRitter2015.Controllers
 {
-    public class CommentController : ApiController
+    public class CommentsController : ApiController
     {
         private readonly IRepository<CommentModel> _repo;
 
-        public CommentController(IRepository<CommentModel> repo)
+        public CommentsController(IRepository<CommentModel> repo)
         {
             this._repo = repo;
         }
