@@ -3,9 +3,22 @@ using System.Net;
 using System.Web.Http;
 using UniRitter.UniRitter2015.Models;
 using UniRitter.UniRitter2015.Services;
+using UniRitter.UniRitter2015.Services.Implementation;
 
 namespace UniRitter.UniRitter2015.Controllers
 {
+
+    public class PeopleController : BaseController<PersonModel>
+    {
+        private readonly IRepository<PersonModel> _repo;
+
+        public PeopleController(IRepository<PersonModel> repo)
+        {
+            _repo = repo;
+        }
+    }
+    /*
+
     public class PeopleController : ApiController
     {
         private readonly IRepository<PersonModel> _repo;
@@ -58,4 +71,5 @@ namespace UniRitter.UniRitter2015.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
     }
+     */
 }
