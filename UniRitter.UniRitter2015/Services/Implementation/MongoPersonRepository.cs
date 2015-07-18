@@ -58,14 +58,6 @@ namespace UniRitter.UniRitter2015.Services.Implementation
 
         public void Upsert(IEnumerable<PersonModel> peopleList)
         {
-            //collection.UpdateManyAsync()
-            /*
-             _collection.Update(
-    Query.EQ("UUID", thing.UUID),
-    Update.Replace(thing),
-    UpsertFlags.Upsert
-);
-             */
             var options = new UpdateOptions {IsUpsert = true};
             foreach (var person in peopleList)
             {
