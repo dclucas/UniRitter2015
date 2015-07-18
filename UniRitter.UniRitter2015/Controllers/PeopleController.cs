@@ -6,7 +6,19 @@ using UniRitter.UniRitter2015.Services;
 
 namespace UniRitter.UniRitter2015.Controllers
 {
-    public class PeopleController : ApiController
+    public class PeopleController : BaseController<PersonModel>
+    {
+        private readonly IRepository<PersonModel> _repo;
+
+        public PeopleController(IRepository<PersonModel> repo)
+        {
+            _repo = repo;
+        }
+
+        
+    }
+
+    /*public class PeopleController : ApiController
     {
         private readonly IRepository<PersonModel> _repo;
 
@@ -57,5 +69,5 @@ namespace UniRitter.UniRitter2015.Controllers
             _repo.Delete(id);
             return StatusCode(HttpStatusCode.NoContent);
         }
-    }
+    }*/
 }
