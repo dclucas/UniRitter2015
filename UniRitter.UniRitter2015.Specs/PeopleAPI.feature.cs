@@ -190,7 +190,7 @@ this.FeatureBackground();
         [NUnit.Framework.DescriptionAttribute("Invalid person data on insertion")]
         [NUnit.Framework.CategoryAttribute("integrated")]
         [NUnit.Framework.TestCaseAttribute("missing firstName", "{\"LastName\":\"de Tal\",\"Email\":\"fulano@email.com\",\"Url\":\"http://fulano.com.br\"}", ".*firstName.*", null)]
-        [NUnit.Framework.TestCaseAttribute("invalid email", "{\"LastName\":\"de Tal\",\"FirstName\":\"fulano\",\"Email\":\"fulano\", \"Url\":\"http://fulano." +
+        [NUnit.Framework.TestCaseAttribute("invalid email", "{\"LastName\":\"de Tal\",\"FirstName\":\"fulano\", \"Email\":\"fulano\",\"Url\":\"http://fulano." +
             "com.br\"}", ".*email.*", null)]
         public virtual void InvalidPersonDataOnInsertion(string @case, string data, string messageRegex, string[] exampleTags)
         {
