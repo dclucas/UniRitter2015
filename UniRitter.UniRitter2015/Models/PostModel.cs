@@ -1,14 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
-
 namespace UniRitter.UniRitter2015.Models
 {
-    public class PostModel
+    public class PostModel : IModel
     {
-
         public Guid? id { get; set; }
 
         [Required]
@@ -19,9 +15,8 @@ namespace UniRitter.UniRitter2015.Models
         [MaxLength(100)]
         public string title { get; set; }
 
-        public Guid? author { get; set; }
+        public Guid authorId { get; set; }
 
-        public string[] tags {get; set;}
-
+        public IEnumerable<string> tags { get; set; }
     }
 }

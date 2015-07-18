@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace UniRitter.UniRitter2015.Models
 {
-    public class PersonModel
+    public class PersonModel: IModel
     {
         public Guid? id { get; set; }
 
