@@ -135,7 +135,7 @@ namespace UniRitter.UniRitter2015.Specs
         public void GivenAnAPIPopulatedWithTheFollowingPeople(Table table)
         {
             backgroundData = table.CreateSet<Person>();
-            var mongoRepo = new MongoPersonRepository();
+            var mongoRepo = new MongoRepository<PersonModel>();
             mongoRepo.Upsert(table.CreateSet<PersonModel>());
         }
 
