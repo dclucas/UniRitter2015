@@ -17,12 +17,7 @@ namespace UniRitter.UniRitter2015.Services.Implementation
             SetupCollection(collectionName);
 
         }
-
-        public MongoRepository(string collectionName)
-        {
-            SetupCollection(collectionName);
-        }
-
+        
         private void SetupCollection(string collectionName)
         {
             var client = new MongoClient("mongodb://localhost");
