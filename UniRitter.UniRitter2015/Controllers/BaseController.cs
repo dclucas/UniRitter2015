@@ -8,7 +8,7 @@ using UniRitter.UniRitter2015.Models;
 
 namespace UniRitter.UniRitter2015.Controllers
 {
-    abstract class BaseController<TModel> : ApiController
+    abstract public class BaseController<TModel> : ApiController
         where TModel: class, IModel
     {
     }
