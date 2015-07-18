@@ -13,7 +13,8 @@ namespace UniRitter.UniRitter2015.Services.Implementation
         public MongoRepository()
         {
             var typeName = typeof(TModel).Name;
-            var collectionName = typeName.Substring(typeName.LastIndexOf("Model"));
+            var collectionName = typeName.Substring(0, 
+                typeName.Length - "Model".Length);
             SetupCollection(collectionName);
         }
 
