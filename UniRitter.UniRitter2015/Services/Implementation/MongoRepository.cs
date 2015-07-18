@@ -17,7 +17,7 @@ namespace UniRitter.UniRitter2015.Services.Implementation
             collection = database.GetCollection<TModel>(collectionName);
         }
 
-        public TModel Add(TModel model)
+        public virtual TModel Add(TModel model)
         {
             if (!model.id.HasValue)
             {
@@ -27,7 +27,7 @@ namespace UniRitter.UniRitter2015.Services.Implementation
             return model;
         }
 
-        public bool Delete(Guid modelId)
+        public virtual bool Delete(Guid modelId)
         {
             var result = collection.DeleteOneAsync(
                 p => p.id == modelId).Result;
@@ -35,28 +35,28 @@ namespace UniRitter.UniRitter2015.Services.Implementation
             return result.DeletedCount > 0;
         }
 
-        public TModel Update(Guid id, TModel model)
+        public virtual TModel Update(Guid id, TModel model)
         {
             collection.ReplaceOneAsync(p => p.id == id, model).Wait();
 
             return model;
         }
 
-        public IEnumerable<TModel> GetAll()
+        public virtual IEnumerable<TModel> GetAll()
         {
             var data = collection.Find(
                 p => true).ToListAsync();
             return data.Result;
         }
 
-        public TModel GetById(Guid id)
+        public virtual TModel GetById(Guid id)
         {
             var data = collection.Find(
                 p => p.id == id).FirstOrDefaultAsync();
             return data.Result;
         }
 
-        public void Upsert(IEnumerable<TModel> itemList)
+        public virtual void Upsert(IEnumerable<TModel> itemList)
         {
             var options = new UpdateOptions { IsUpsert = true };
             foreach (var item in itemList)
