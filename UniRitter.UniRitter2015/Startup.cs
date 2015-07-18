@@ -28,7 +28,7 @@ namespace UniRitter.UniRitter2015
             var kernel = new StandardKernel();
             kernel.Load(Assembly.GetExecutingAssembly());
 
-            kernel.Bind<IRepository<PersonModel>>().To<MongoPersonRepository>();
+            kernel.Bind(typeof(IRepository<>)).To(typeof(MongoRepository<>));
 
             return kernel;
         }
