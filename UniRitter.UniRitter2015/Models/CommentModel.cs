@@ -6,7 +6,7 @@ using System.Web;
 
 namespace UniRitter.UniRitter2015.Models
 {
-    public class CommentModel
+    public class CommentModel: IModel
     {
         public Guid? id { get; set; }
 

@@ -127,6 +127,8 @@
     <Compile Include="Models\PersonModel.cs" />
     <Compile Include="Models\PostModel.cs" />
     <Compile Include="Services\Implementation\MongoPostRepository.cs" />
+    <Compile Include="Services\Implementation\MongoRepository.cs" />
+    <Compile Include="Models\IModel.cs" />
     <Compile Include="Support\ApiConfig.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
