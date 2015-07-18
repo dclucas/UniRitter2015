@@ -48,3 +48,4 @@ Background:
 	Examples:
 	| case              | data																			| messageRegex	|
 	| missing firstName	| {"LastName":"de Tal","Email":"fulano@email.com","Url":"http://fulano.com.br"} | .*firstName.*	|
+	| invalid email		| {"LastName":"de Tal","FirstName":"fulano","Email":"fulano", "Url":"http://fulano.com.br"} | .*email.*	|
