@@ -13,17 +13,18 @@ namespace UniRitter.UniRitter2015.Services.Implementation
         public MongoRepository()
         {
             var typeName = typeof(TModel).Name;
-            var collectionName = typeName.Substring(0, typeName.LastIndexOf("Model"));
+            var collectionName = typeName.Substring(0, 
+                typeName.Length - "Model".Length);
             SetupCollection(collectionName);
-
         }
-        
+
         private void SetupCollection(string collectionName)
         {
             var client = new MongoClient("mongodb://localhost");
             database = client.GetDatabase("uniritter");
             collection = database.GetCollection<TModel>(collectionName);
         }
+
 
         public virtual TModel Add(TModel model)
         {
