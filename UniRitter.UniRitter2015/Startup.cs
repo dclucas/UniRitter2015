@@ -8,6 +8,7 @@ using UniRitter.UniRitter2015.Models;
 using UniRitter.UniRitter2015.Services;
 using UniRitter.UniRitter2015.Services.Implementation;
 using UniRitter.UniRitter2015.Support;
+using System.Web.Http.ExceptionHandling;
 
 namespace UniRitter.UniRitter2015
 {
@@ -15,13 +16,15 @@ namespace UniRitter.UniRitter2015
     {
         public void Configuration(IAppBuilder app)
         {
-            var webApiConfiguration = new HttpConfiguration();
-            webApiConfiguration.Routes.MapHttpRoute("DefaultApi", "{controller}/{id}",
+            var config = new HttpConfiguration();
+            config.Routes.MapHttpRoute("DefaultApi", "{controller}/{id}",
                 new {id = RouteParameter.Optional, controller = "values"});
+            
+            config.Formatters.Remove(config.Formatters.XmlFormatter);
 
-            webApiConfiguration.Formatters.Remove(webApiConfiguration.Formatters.XmlFormatter);
-
-            app.UseNinjectMiddleware(CreateKernel).UseNinjectWebApi(webApiConfiguration);
+            config.Services.Add(typeof(IExceptionLogger), new NLogExceptionLogger());
+            app.UseNinjectMiddleware(CreateKernel).UseNinjectWebApi(config);
+            //config.Services.Replace(typeof(IExceptionLogger), new NLogExceptionLogger());
         }
 
         private static StandardKernel CreateKernel()
@@ -31,6 +34,7 @@ namespace UniRitter.UniRitter2015
 
             kernel.Bind<IApiConfig>().To<ApiConfig>();
             kernel.Bind(typeof(IRepository<>)).To(typeof(MongoRepository<>));
+            //kernel.Bind<IExceptionLogger>().To<NLogExceptionLogger>();
 
             return kernel;
         }
