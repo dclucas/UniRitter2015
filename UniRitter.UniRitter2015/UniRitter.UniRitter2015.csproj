@@ -134,6 +134,7 @@
     <Compile Include="Services\Implementation\PersonInMemoryRepository.cs" />
     <Compile Include="Services\IRepository.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Support\IApiConfig.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using MongoDB.Driver;
 using UniRitter.UniRitter2015.Models;
+using UniRitter.UniRitter2015.Support;
 
 namespace UniRitter.UniRitter2015.Services.Implementation
 {
@@ -10,19 +11,18 @@ namespace UniRitter.UniRitter2015.Services.Implementation
         private IMongoCollection<TModel> collection;
         private IMongoDatabase database;
 
-        public MongoRepository()
+        public MongoRepository(IApiConfig cfg)
         {
             var typeName = typeof(TModel).Name;
             var collectionName = typeName.Substring(0, 
                 typeName.Length - "Model".Length);
-            SetupCollection(collectionName);
+            var client = new MongoClient(cfg.MongoDbUrl);
+            database = client.GetDatabase(cfg.MongoDbName);
+            collection = database.GetCollection<TModel>(collectionName);
         }
 
         private void SetupCollection(string collectionName)
         {
-            var client = new MongoClient("mongodb://localhost");
-            database = client.GetDatabase("uniritter");
-            collection = database.GetCollection<TModel>(collectionName);
         }
 
 
