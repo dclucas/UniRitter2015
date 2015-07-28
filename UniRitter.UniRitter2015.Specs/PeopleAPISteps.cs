@@ -10,6 +10,7 @@ using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Assist;
 using UniRitter.UniRitter2015.Models;
 using UniRitter.UniRitter2015.Services.Implementation;
+using UniRitter.UniRitter2015.Support;
 
 namespace UniRitter.UniRitter2015.Specs
 {
@@ -135,7 +136,7 @@ namespace UniRitter.UniRitter2015.Specs
         public void GivenAnAPIPopulatedWithTheFollowingPeople(Table table)
         {
             backgroundData = table.CreateSet<Person>();
-            var mongoRepo = new MongoRepository<PersonModel>();
+            var mongoRepo = new MongoRepository<PersonModel>(new ApiConfig());
             mongoRepo.Upsert(table.CreateSet<PersonModel>());
         }
 

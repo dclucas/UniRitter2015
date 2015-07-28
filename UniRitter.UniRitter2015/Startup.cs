@@ -7,6 +7,7 @@ using Owin;
 using UniRitter.UniRitter2015.Models;
 using UniRitter.UniRitter2015.Services;
 using UniRitter.UniRitter2015.Services.Implementation;
+using UniRitter.UniRitter2015.Support;
 
 namespace UniRitter.UniRitter2015
 {
@@ -28,6 +29,7 @@ namespace UniRitter.UniRitter2015
             var kernel = new StandardKernel();
             kernel.Load(Assembly.GetExecutingAssembly());
 
+            kernel.Bind<IApiConfig>().To<ApiConfig>();
             kernel.Bind(typeof(IRepository<>)).To(typeof(MongoRepository<>));
 
             return kernel;
