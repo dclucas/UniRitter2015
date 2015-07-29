@@ -11,7 +11,7 @@ namespace UniRitter.UniRitter2015.Support
 
         public string ApiUrl
         {
-            get { return GetEnvVar("APP_URL", "http://localhost"); }
+            get { return GetEnvVar("API_URL", "http://localhost"); }
         }
 
         public int Port

@@ -14,6 +14,13 @@ namespace UniRitter.UniRitter2015
 {
     public class Startup
     {
+        public static IKernel kernel { get; private set; }
+
+        static Startup()
+        {
+            CreateKernel();
+        }
+
         public void Configuration(IAppBuilder app)
         {
             var config = new HttpConfiguration();
@@ -23,20 +30,16 @@ namespace UniRitter.UniRitter2015
             config.Formatters.Remove(config.Formatters.XmlFormatter);
 
             config.Services.Add(typeof(IExceptionLogger), new NLogExceptionLogger());
-            app.UseNinjectMiddleware(CreateKernel).UseNinjectWebApi(config);
-            //config.Services.Replace(typeof(IExceptionLogger), new NLogExceptionLogger());
+            app.UseNinjectMiddleware(() => kernel).UseNinjectWebApi(config);
         }
 
-        private static StandardKernel CreateKernel()
+        private static void CreateKernel()
         {
-            var kernel = new StandardKernel();
+            kernel = new StandardKernel();
             kernel.Load(Assembly.GetExecutingAssembly());
 
             kernel.Bind<IApiConfig>().To<ApiConfig>();
             kernel.Bind(typeof(IRepository<>)).To(typeof(MongoRepository<>));
-            //kernel.Bind<IExceptionLogger>().To<NLogExceptionLogger>();
-
-            return kernel;
         }
     }
 }

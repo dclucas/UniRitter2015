@@ -11,12 +11,6 @@ namespace UniRitter.UniRitter2015.Support
 {
     public class NLogExceptionLogger : ExceptionLogger
     {
-        private string remove_me_later;
-        public NLogExceptionLogger()
-        {
-            remove_me_later = "ASAP";
-        }
-
         private static readonly Logger Nlog = LogManager.GetCurrentClassLogger();
         public override void Log(ExceptionLoggerContext context)
         {

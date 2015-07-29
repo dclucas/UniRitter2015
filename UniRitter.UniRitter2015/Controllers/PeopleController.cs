@@ -29,7 +29,6 @@ namespace UniRitter.UniRitter2015.Controllers
             {
                 return Json(data);
             }
-
             return NotFound();
         }
 
@@ -54,7 +53,6 @@ namespace UniRitter.UniRitter2015.Controllers
         // DELETE: api/Person/5
         public IHttpActionResult Delete(Guid id)
         {
-            throw new NullReferenceException();
             _repo.Delete(id);
             return StatusCode(HttpStatusCode.NoContent);
         }
