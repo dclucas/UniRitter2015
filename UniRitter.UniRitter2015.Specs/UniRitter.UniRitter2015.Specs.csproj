@@ -99,6 +99,12 @@
       <DependentUpon>PeopleAPI.feature</DependentUpon>
     </Compile>
     <Compile Include="PeopleAPISteps.cs" />
+    <Compile Include="PostsAPI.feature.cs">
+      <DependentUpon>PostsAPI.feature</DependentUpon>
+      <SubType>Code</SubType>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -113,6 +119,10 @@
     <None Include="PeopleAPI.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>PeopleAPI.feature.cs</LastGenOutput>
+    </None>
+    <None Include="PostsAPI.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>PostsAPI.feature.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
