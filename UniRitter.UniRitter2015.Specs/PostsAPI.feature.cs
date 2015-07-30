@@ -196,8 +196,8 @@ this.FeatureBackground();
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Invalid post data on insertion")]
         [NUnit.Framework.CategoryAttribute("integrated")]
-        [NUnit.Framework.TestCaseAttribute("missing body", "", ".*body.*", null)]
-        [NUnit.Framework.TestCaseAttribute("title too long", "", ".*title.*", null)]
+        [NUnit.Framework.TestCaseAttribute("missing body", "{}", ".*body.*", null)]
+        [NUnit.Framework.TestCaseAttribute("title too long", "{}", ".*title.*", null)]
         public virtual void InvalidPostDataOnInsertion(string @case, string data, string messageRegex, string[] exampleTags)
         {
             string[] @__tags = new string[] {

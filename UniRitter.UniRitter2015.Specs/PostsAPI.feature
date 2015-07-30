@@ -48,6 +48,6 @@ Background:
 	Then I receive an error (code 400) return message
 	And I receive a message that conforms <messageRegex>
 	Examples:
-	| case           | data																						| messageRegex	|
-	| missing body	 | | .*body.*	|
-	| title too long | | .*title.*		|
+	| case           | data | messageRegex |
+	| missing body	 | {}   | .*body.*	   |
+	| title too long | {}   | .*title.*    |

@@ -4,6 +4,16 @@ namespace UniRitter.UniRitter2015.Support
 {
     public class ApiConfig : UniRitter.UniRitter2015.Support.IApiConfig
     {
+        public string FullUrl
+        {
+            get { return String.Format("{0}:{1}/", ApiUrl, Port); }
+        }
+
+        public string ApiUrl
+        {
+            get { return GetEnvVar("API_URL", "http://localhost"); }
+        }
+
         public int Port
         {
             get { return GetEnvVar("PORT", 9000); }
