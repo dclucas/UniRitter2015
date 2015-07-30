@@ -13,11 +13,11 @@ namespace UniRitter.UniRitter2015.Controllers
     abstract public class BaseController<TModel> : ApiController
         where TModel: class, IModel
     {
-        public readonly IRepository<TModel> _repo;
+        public IRepository<TModel> _repo;
 
-        public BaseController(IRepository<TModel> repo)
+        public BaseController()
         {
-            this._repo = repo;
+          
         }
 
         // GET: api/Post
