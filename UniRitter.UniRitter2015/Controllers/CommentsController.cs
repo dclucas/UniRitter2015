@@ -11,6 +11,7 @@ namespace UniRitter.UniRitter2015.Controllers
         private readonly IRepository<CommentModel> _repo;
 
         public CommentsController(IRepository<CommentModel> repo)
+            : base (repo)
         {
             _repo = repo;
         }

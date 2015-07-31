@@ -10,6 +10,7 @@ namespace UniRitter.UniRitter2015.Controllers
         private readonly IRepository<PostModel> _repo;
 
         public PostsController(IRepository<PostModel> repo)
+            : base (repo)
         {
             _repo = repo;
         }
