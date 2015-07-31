@@ -16,8 +16,9 @@ namespace UniRitter.UniRitter2015.Services.Implementation
             var typeName = typeof(TModel).Name;
             var collectionName = typeName.Substring(0, 
                 typeName.Length - "Model".Length);
-            var client = new MongoClient("mongodb://uniritter:uniritter@ds063892.mongolab.com:63892/appharbor_95kcgnkj");//cfg.MongoDbUrl);
+            var client = new MongoClient("mongodb://appharbor_95kcgnkj:kdebb7kt1kr044ihttbuurgpqi@ds063892.mongolab.com:63892/appharbor_95kcgnkj");//cfg.MongoDbUrl);
             database = client.GetDatabase("appharbor_95kcgnkj");//cfg.MongoDbName);
+            // appharbor_95kcgnkj
             collection = database.GetCollection<TModel>(collectionName);
         }
 
