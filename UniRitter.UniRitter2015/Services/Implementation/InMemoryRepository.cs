@@ -4,16 +4,18 @@ using UniRitter.UniRitter2015.Models;
 
 namespace UniRitter.UniRitter2015.Services.Implementation
 {
-    public class PersonInMemoryRepository : IRepository<PersonModel>
+    public class InMemoryRepository<TModel> : IRepository<TModel> where TModel: class, IModel
     {
-        private static readonly Dictionary<Guid, PersonModel> Data = new Dictionary<Guid, PersonModel>();
+        private static readonly Dictionary<Guid, TModel> Data = new Dictionary<Guid, TModel>();
 
-        public PersonModel Add(PersonModel model)
+        public TModel Add(TModel model)
         {
-            var id = Guid.NewGuid();
-            model.id = id;
+            if (!model.id.HasValue)
+            {
+                model.id = Guid.NewGuid();
+            }
             // TODO: this is __NOT__ thread safe!
-            Data[id] = model;
+            Data[model.id.Value] = model;
             return model;
         }
 
@@ -23,7 +25,7 @@ namespace UniRitter.UniRitter2015.Services.Implementation
             return true;
         }
 
-        public PersonModel Update(Guid id, PersonModel model)
+        public TModel Update(Guid id, TModel model)
         {
             // TODO: this is __NOT__ thread safe!
             // TODO: id should be checked against model.id
@@ -31,12 +33,12 @@ namespace UniRitter.UniRitter2015.Services.Implementation
             return model;
         }
 
-        public IEnumerable<PersonModel> GetAll()
+        public IEnumerable<TModel> GetAll()
         {
             return Data.Values;
         }
 
-        public PersonModel GetById(Guid id)
+        public TModel GetById(Guid id)
         {
             return Data.ContainsKey(id) ? Data[id] : null;
         }

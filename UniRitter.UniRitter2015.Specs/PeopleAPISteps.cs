@@ -142,8 +142,12 @@ namespace UniRitter.UniRitter2015.Specs
         public void GivenAnAPIPopulatedWithTheFollowingPeople(Table table)
         {
             backgroundData = table.CreateSet<Person>();
-            var mongoRepo = new MongoRepository<PersonModel>(new ApiConfig());
-            mongoRepo.Upsert(table.CreateSet<PersonModel>());
+            //var mongoRepo = new MongoRepository<PersonModel>(new ApiConfig());
+            //mongoRepo.Upsert(table.CreateSet<PersonModel>());
+            var repo = new InMemoryRepository<PersonModel>();
+            foreach (var entry in table.CreateSet<PersonModel>()) {
+                repo.Add(entry);
+            }
         }
 
         [When(@"I post the following data to the /people API endpoint: (.+)")]

@@ -1,5 +1,7 @@
 ﻿using Microsoft.Owin.Hosting;
 using TechTalk.SpecFlow;
+using UniRitter.UniRitter2015.Services;
+using UniRitter.UniRitter2015.Services.Implementation;
 
 namespace UniRitter.UniRitter2015.Specs
 {
@@ -12,6 +14,7 @@ namespace UniRitter.UniRitter2015.Specs
             var baseAddress = "http://localhost:49556/";
 
             WebApp.Start<Startup>(baseAddress);
+            Startup.kernel.Rebind(typeof(IRepository<>)).To(typeof(InMemoryRepository<>));
         }
 
         [AfterTestRun]

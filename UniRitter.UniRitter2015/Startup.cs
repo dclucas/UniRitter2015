@@ -40,6 +40,7 @@ namespace UniRitter.UniRitter2015
 
             kernel.Bind<IApiConfig>().To<ApiConfig>();
             kernel.Bind(typeof(IRepository<>)).To(typeof(MongoRepository<>));
+            //kernel.Bind(typeof(IRepository<>)).To(typeof(InMemoryRepository<>));
         }
     }
 }
