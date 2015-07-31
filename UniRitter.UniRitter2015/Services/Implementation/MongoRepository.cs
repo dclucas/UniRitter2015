@@ -23,23 +23,22 @@ namespace UniRitter.UniRitter2015.Services.Implementation
             collection = database.GetCollection<TModel>(collectionName);
         }
 
-        public virtual Task<TModel> Add(TModel model)
+        public virtual async Task<TModel> Add(TModel model)
         {
             if (!model.id.HasValue)
             {
                 model.id = Guid.NewGuid();
             }
-            // todo: remove this wait
-            collection.InsertOneAsync(model).Wait();
-            return Task.FromResult(model);
+            await collection.InsertOneAsync(model);
+            return model;
         }
 
-        public virtual Task<bool> Delete(Guid modelId)
+        public virtual async Task<bool> Delete(Guid modelId)
         {
-            var result = collection.DeleteOneAsync(
-                p => p.id == modelId).Result;
+            var result = await collection.DeleteOneAsync(
+                p => p.id == modelId);
 
-            return Task.FromResult(result.DeletedCount > 0);
+            return result.DeletedCount > 0;
         }
 
         public virtual async Task<TModel> Update(Guid id, TModel model)
