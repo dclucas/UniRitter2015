@@ -19,7 +19,7 @@ Background:
 	Then I get a list containing the populated resources
 
 	@integrated
-	Scenario Outline: Get a specific person entry
+	Scenario Outline: Get a specific post entry
 	Given the populated API
 	When I GET from the /posts/<id> API endpoint
 	Then the data matches that id
@@ -32,7 +32,7 @@ Background:
 
 	@integrated
 	Scenario: Add a post
-	Given a person resource as described below:
+	Given a post resource as described below:
 	| body        | title   | authorId                             | tags     |
 	| My new Post | New one	| 8d0d477f-1378-4fc1-bb47-29eb3ea959e1 | New,Post |
 	When I post it to the /posts API endpoint
@@ -48,6 +48,6 @@ Background:
 	Then I receive an error (code 400) return message
 	And I receive a message that conforms <messageRegex>
 	Examples:
-	| case           | data																						| messageRegex	|
-	| missing body	 | | .*body.*	|
-	| title too long | | .*title.*		|
+	| case           | data | messageRegex |
+	| missing body	 | {}   | .*body.*	   |
+	| title too long | {}   | .*title.*    |
