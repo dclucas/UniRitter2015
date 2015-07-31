@@ -21,11 +21,6 @@ namespace UniRitter.UniRitter2015.Services.Implementation
             collection = database.GetCollection<TModel>(collectionName);
         }
 
-        private void SetupCollection(string collectionName)
-        {
-        }
-
-
         public virtual TModel Add(TModel model)
         {
             if (!model.id.HasValue)

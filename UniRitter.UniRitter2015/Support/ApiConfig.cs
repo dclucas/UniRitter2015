@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 
 namespace UniRitter.UniRitter2015.Support
 {
@@ -31,11 +32,12 @@ namespace UniRitter.UniRitter2015.Support
 
         private T GetEnvVar<T>(string varName, T valueIfNull)
         {
-            var val = Environment.GetEnvironmentVariable(varName);
+            var val = Environment.GetEnvironmentVariable(varName) ?? ConfigurationManager.AppSettings.Get(varName);
             if (val != null)
             {
-                return (T) Convert.ChangeType(val, typeof (T));
+                return (T)Convert.ChangeType(val, typeof(T));
             }
+
             return valueIfNull;
         }
     }
