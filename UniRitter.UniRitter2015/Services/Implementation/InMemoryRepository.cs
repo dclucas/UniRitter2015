@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UniRitter.UniRitter2015.Models;
 
 namespace UniRitter.UniRitter2015.Services.Implementation
@@ -8,7 +9,7 @@ namespace UniRitter.UniRitter2015.Services.Implementation
     {
         private static readonly Dictionary<Guid, TModel> Data = new Dictionary<Guid, TModel>();
 
-        public TModel Add(TModel model)
+        public Task<TModel> Add(TModel model)
         {
             if (!model.id.HasValue)
             {
@@ -16,31 +17,32 @@ namespace UniRitter.UniRitter2015.Services.Implementation
             }
             // TODO: this is __NOT__ thread safe!
             Data[model.id.Value] = model;
-            return model;
+            return Task.FromResult(model);
         }
 
-        public bool Delete(Guid modelId)
+        public Task<bool> Delete(Guid modelId)
         {
             Data.Remove(modelId);
-            return true;
+            return Task.FromResult(true);
         }
 
-        public TModel Update(Guid id, TModel model)
+        public Task<TModel> Update(Guid id, TModel model)
         {
             // TODO: this is __NOT__ thread safe!
             // TODO: id should be checked against model.id
             Data[id] = model;
-            return model;
+            return Task.FromResult(model);
         }
 
-        public IEnumerable<TModel> GetAll()
+        public Task<IEnumerable<TModel>> GetAll()
         {
-            return Data.Values;
+            IEnumerable<TModel> values = Data.Values;
+            return Task.FromResult(values);
         }
 
-        public TModel GetById(Guid id)
+        public Task<TModel> GetById(Guid id)
         {
-            return Data.ContainsKey(id) ? Data[id] : null;
+            return Task.FromResult(Data.ContainsKey(id) ? Data[id] : null);
         }
     }
 }
