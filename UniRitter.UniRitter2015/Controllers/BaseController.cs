@@ -10,7 +10,7 @@ using UniRitter.UniRitter2015.Services;
 
 namespace UniRitter.UniRitter2015.Controllers
 {
-    abstract class BaseController<TModel> : ApiController
+    abstract public class BaseController<TModel> : ApiController
         where TModel: class, IModel
     {
         public readonly IRepository<TModel> _repo;

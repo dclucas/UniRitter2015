@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Net;
 using System.Web.Http;
 using UniRitter.UniRitter2015.Models;
