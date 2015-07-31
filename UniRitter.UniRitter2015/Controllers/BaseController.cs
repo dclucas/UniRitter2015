@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Http;
 using UniRitter.UniRitter2015.Models;
 using UniRitter.UniRitter2015.Services;
@@ -17,16 +13,21 @@ namespace UniRitter.UniRitter2015.Controllers
 
         public BaseController()
         {
-          
+
         }
 
-        // GET: api/Post
+        public BaseController(IRepository<TModel> repo)
+        {
+            _repo = repo;
+        }
+
+        // GET: api/Person
         public IHttpActionResult Get()
         {
             return Json(_repo.GetAll());
         }
 
-        // GET: api/Post/5
+        // GET: api/Person/5
         public IHttpActionResult Get(Guid id)
         {
             var data = _repo.GetById(id);
@@ -34,32 +35,28 @@ namespace UniRitter.UniRitter2015.Controllers
             {
                 return Json(data);
             }
-
             return NotFound();
         }
 
-        // POST: api/Post
-        public IHttpActionResult Post([FromBody]TModel post)
+        // POST: api/Person
+        public IHttpActionResult Post([FromBody] TModel model)
         {
             if (ModelState.IsValid)
             {
-                var data = _repo.Add(post);
+                var data = _repo.Add(model);
                 return Json(data);
             }
-            else
-            {
-                return BadRequest(ModelState);
-            }
+            return BadRequest(ModelState);
         }
 
-        // PUT: api/Post/5
-        public IHttpActionResult Put(Guid id, [FromBody]TModel post)
+        // PUT: api/Person/5
+        public IHttpActionResult Put(Guid id, [FromBody] TModel model)
         {
-            var data = _repo.Update(id, post);
-            return Json(post);
+            var data = _repo.Update(id, model);
+            return Json(model);
         }
 
-        // DELETE: api/Post/5
+        // DELETE: api/Person/5
         public IHttpActionResult Delete(Guid id)
         {
             _repo.Delete(id);
