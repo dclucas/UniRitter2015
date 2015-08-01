@@ -7,30 +7,39 @@ using Owin;
 using UniRitter.UniRitter2015.Models;
 using UniRitter.UniRitter2015.Services;
 using UniRitter.UniRitter2015.Services.Implementation;
+using UniRitter.UniRitter2015.Support;
+using System.Web.Http.ExceptionHandling;
 
 namespace UniRitter.UniRitter2015
 {
     public class Startup
     {
-        public void Configuration(IAppBuilder app)
+        public static IKernel kernel { get; private set; }
+
+        static Startup()
         {
-            var webApiConfiguration = new HttpConfiguration();
-            webApiConfiguration.Routes.MapHttpRoute("DefaultApi", "{controller}/{id}",
-                new {id = RouteParameter.Optional, controller = "values"});
-
-            webApiConfiguration.Formatters.Remove(webApiConfiguration.Formatters.XmlFormatter);
-
-            app.UseNinjectMiddleware(CreateKernel).UseNinjectWebApi(webApiConfiguration);
+            CreateKernel();
         }
 
-        private static StandardKernel CreateKernel()
+        public void Configuration(IAppBuilder app)
         {
-            var kernel = new StandardKernel();
+            var config = new HttpConfiguration();
+            config.Routes.MapHttpRoute("DefaultApi", "{controller}/{id}",
+                new {id = RouteParameter.Optional, controller = "values"});
+            
+            config.Formatters.Remove(config.Formatters.XmlFormatter);
+
+            config.Services.Add(typeof(IExceptionLogger), new NLogExceptionLogger());
+            app.UseNinjectMiddleware(() => kernel).UseNinjectWebApi(config);
+        }
+
+        private static void CreateKernel()
+        {
+            kernel = new StandardKernel();
             kernel.Load(Assembly.GetExecutingAssembly());
 
-            kernel.Bind<IRepository<PersonModel>>().To<MongoPersonRepository>();
-
-            return kernel;
+            kernel.Bind<IApiConfig>().To<ApiConfig>();
+            kernel.Bind(typeof(IRepository<>)).To(typeof(MongoRepository<>));
         }
     }
 }

@@ -10,6 +10,7 @@ using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Assist;
 using UniRitter.UniRitter2015.Models;
 using UniRitter.UniRitter2015.Services.Implementation;
+using UniRitter.UniRitter2015.Support;
 
 namespace UniRitter.UniRitter2015.Specs
 {
@@ -45,6 +46,12 @@ namespace UniRitter.UniRitter2015.Specs
         [Then(@"I receive a success \(code (.*)\) return message")]
         public void ThenIReceiveASuccessCodeReturnMessage(int code)
         {
+            if (! response.IsSuccessStatusCode)
+            {
+                var msg = String.Format("API error: {0}", response.Content.ReadAsStringAsync().Result);
+                Assert.Fail(msg);
+            }
+            
             CheckCode(code);
         }
 
@@ -135,8 +142,12 @@ namespace UniRitter.UniRitter2015.Specs
         public void GivenAnAPIPopulatedWithTheFollowingPeople(Table table)
         {
             backgroundData = table.CreateSet<Person>();
-            var mongoRepo = new MongoPersonRepository();
-            mongoRepo.Upsert(table.CreateSet<PersonModel>());
+            //var mongoRepo = new MongoRepository<PersonModel>(new ApiConfig());
+            //mongoRepo.Upsert(table.CreateSet<PersonModel>());
+            var repo = new InMemoryRepository<PersonModel>();
+            foreach (var entry in table.CreateSet<PersonModel>()) {
+                repo.Add(entry);
+            }
         }
 
         [When(@"I post the following data to the /people API endpoint: (.+)")]

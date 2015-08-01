@@ -1,68 +1,75 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using MongoDB.Driver;
 using UniRitter.UniRitter2015.Models;
+using UniRitter.UniRitter2015.Support;
+using System.Threading.Tasks;
 
 namespace UniRitter.UniRitter2015.Services.Implementation
 {
-    public class MongoRepository<TModel> : IRepository<TModel> where TModel: class, IModel
+    public class MongoRepository<TModel> : IRepository<TModel> where TModel : class, IModel
     {
-        private readonly IMongoCollection<TModel> collection;
-        private readonly IMongoDatabase database;
+        private IMongoCollection<TModel> collection;
+        private IMongoDatabase database;
 
-        public MongoRepository(string collectionName)
+        public MongoRepository(IApiConfig cfg)
         {
-            var client = new MongoClient("mongodb://localhost");
-            database = client.GetDatabase("uniritter");
+            var typeName = typeof(TModel).Name;
+            var collectionName = typeName.Substring(0,
+                typeName.Length - "Model".Length);
+            var client = new MongoClient(cfg.MongoDbUrl);
+            database = client.GetDatabase(cfg.MongoDbName);
             collection = database.GetCollection<TModel>(collectionName);
         }
 
-        public virtual TModel Add(TModel model)
+        public virtual async Task<TModel> Add(TModel model)
         {
             if (!model.id.HasValue)
             {
                 model.id = Guid.NewGuid();
             }
-            collection.InsertOneAsync(model).Wait();
+            await collection.InsertOneAsync(model);
             return model;
         }
 
-        public virtual bool Delete(Guid modelId)
+        public virtual async Task<bool> Delete(Guid modelId)
         {
-            var result = collection.DeleteOneAsync(
-                p => p.id == modelId).Result;
+            var result = await collection.DeleteOneAsync(
+                p => p.id == modelId);
 
             return result.DeletedCount > 0;
         }
 
-        public virtual TModel Update(Guid id, TModel model)
+        public virtual async Task<TModel> Update(Guid id, TModel model)
         {
-            collection.ReplaceOneAsync(p => p.id == id, model).Wait();
-
+            var res = await collection.ReplaceOneAsync(p => p.id == id, model);
+            
             return model;
         }
 
-        public virtual IEnumerable<TModel> GetAll()
+        public virtual async Task<IEnumerable<TModel>> GetAll()
         {
             var data = collection.Find(
                 p => true).ToListAsync();
-            return data.Result;
+
+            return await data;
         }
 
-        public virtual TModel GetById(Guid id)
+        public virtual Task<TModel> GetById(Guid id)
         {
             var data = collection.Find(
                 p => p.id == id).FirstOrDefaultAsync();
-            return data.Result;
+
+            return data;
         }
 
-        public virtual void Upsert(IEnumerable<TModel> itemList)
+        public virtual Task Upsert(IEnumerable<TModel> itemList)
         {
             var options = new UpdateOptions { IsUpsert = true };
-            foreach (var item in itemList)
-            {
-                collection.ReplaceOneAsync(model => model.id == item.id, item, options);
-            }
+            var results = from item in itemList
+                          select collection.ReplaceOneAsync(model => model.id == item.id, item, options);
+            return Task.WhenAll(results);
         }
     }
 }
