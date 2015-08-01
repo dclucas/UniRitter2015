@@ -25,6 +25,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -141,6 +142,7 @@
     <Compile Include="Controllers\CommentsController.cs" />
     <Compile Include="Controllers\PeopleController.cs" />
     <Compile Include="Controllers\PostsController.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Models\CommentModel.cs" />
     <Compile Include="Models\IModel.cs" />
     <Compile Include="Models\PersonModel.cs" />

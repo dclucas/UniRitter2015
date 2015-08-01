@@ -14,7 +14,7 @@ using UniRitter.UniRitter2015.Support;
 
 namespace UniRitter.UniRitter2015.Specs
 {
-    [Binding]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1001:TypesThatOwnDisposableFieldsShouldBeDisposable"), Binding]
     public class PeopleAPISteps
     {
         private readonly HttpClient client;
