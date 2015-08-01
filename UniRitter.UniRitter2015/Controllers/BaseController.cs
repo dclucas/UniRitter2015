@@ -13,7 +13,12 @@ namespace UniRitter.UniRitter2015.Controllers
     abstract public class BaseController<TModel> : ApiController
         where TModel: class, IModel
     {
-        public readonly IRepository<TModel> _repo;
+        public IRepository<TModel> _repo;
+
+        public BaseController()
+        {
+            
+        }
 
         public BaseController(IRepository<TModel> repo)
         {
@@ -21,48 +26,44 @@ namespace UniRitter.UniRitter2015.Controllers
         }
 
         // GET: api/Post
-        public IHttpActionResult Get()
+        public async Task<IHttpActionResult> Get()
         {
-            return Json(_repo.GetAll());
+            return Json(await _repo.GetAll());
         }
 
         // GET: api/Post/5
-        public IHttpActionResult Get(Guid id)
+        public async Task<IHttpActionResult> Get(Guid id)
         {
-            var data = _repo.GetById(id);
+            var data = await _repo.GetById(id);
             if (data != null)
             {
                 return Json(data);
             }
-
             return NotFound();
         }
 
         // POST: api/Post
-        public IHttpActionResult Post([FromBody]TModel post)
+        public async Task<IHttpActionResult> Post([FromBody]TModel post)
         {
             if (ModelState.IsValid)
             {
-                var data = _repo.Add(post);
+                var data = await _repo.Add(post);
                 return Json(data);
             }
-            else
-            {
-                return BadRequest(ModelState);
-            }
+            return BadRequest(ModelState);
         }
 
         // PUT: api/Post/5
-        public IHttpActionResult Put(Guid id, [FromBody]TModel post)
+        public async Task<IHttpActionResult> Put(Guid id, [FromBody]TModel post)
         {
-            var data = _repo.Update(id, post);
+            var data = await _repo.Update(id, post);
             return Json(post);
         }
 
         // DELETE: api/Post/5
-        public IHttpActionResult Delete(Guid id)
+        public async Task<IHttpActionResult> Delete(Guid id)
         {
-            _repo.Delete(id);
+            await _repo.Delete(id);
             return StatusCode(HttpStatusCode.NoContent);
         }
     }
