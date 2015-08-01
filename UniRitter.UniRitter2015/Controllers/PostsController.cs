@@ -1,22 +1,23 @@
 ﻿using System;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web.Http;
 using UniRitter.UniRitter2015.Models;
 using UniRitter.UniRitter2015.Services;
 
 namespace UniRitter.UniRitter2015.Controllers
 {
-    public class PostsController : ApiController
+    public class PostsController : BaseController<PostModel>
     {
         private readonly IRepository<PostModel> _repo;
 
-        public PostsController(IRepository<PostModel> repo)
+        public PostsController(IRepository<PostModel> repo) : base(repo)
         {
             _repo = repo;
         }
 
         // GET: api/Post
-        public IHttpActionResult Get()
+        /*public IHttpActionResult Get()
         {
             return Json(_repo.GetAll());
         }
@@ -56,6 +57,6 @@ namespace UniRitter.UniRitter2015.Controllers
         {
             _repo.Delete(id);
             return StatusCode(HttpStatusCode.NoContent);
-        }
+        }*/
     }
 }
