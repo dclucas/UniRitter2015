@@ -43,7 +43,7 @@ namespace UniRitter.UniRitter2015.Controllers
         }
 
         // POST: api/Post
-        public async Task<IHttpActionResult> Post([FromBody]TModel post)
+        public virtual async Task<IHttpActionResult> Post([FromBody]TModel post)
         {
             if (ModelState.IsValid)
             {
@@ -54,14 +54,14 @@ namespace UniRitter.UniRitter2015.Controllers
         }
 
         // PUT: api/Post/5
-        public async Task<IHttpActionResult> Put(Guid id, [FromBody]TModel post)
+        public virtual async Task<IHttpActionResult> Put(Guid id, [FromBody]TModel post)
         {
             var data = await _repo.Update(id, post);
             return Json(post);
         }
 
         // DELETE: api/Post/5
-        public async Task<IHttpActionResult> Delete(Guid id)
+        public virtual async Task<IHttpActionResult> Delete(Guid id)
         {
             await _repo.Delete(id);
             return StatusCode(HttpStatusCode.NoContent);
