@@ -7,17 +7,17 @@ using UniRitter.UniRitter2015.Services;
 
 namespace UniRitter.UniRitter2015.Controllers
 {
-    public class PeopleController : ApiController
+    public class PeopleController : BaseController<PersonModel>
     {
         private readonly IRepository<PersonModel> _repo;
 
-        public PeopleController(IRepository<PersonModel> repo)
+        public PeopleController(IRepository<PersonModel> repo) : base(repo)
         {
             _repo = repo;
         }
 
         // GET: api/Person
-        public async Task<IHttpActionResult> Get()
+        /*public async Task<IHttpActionResult> Get()
         {
             return Json(await _repo.GetAll());
         }
@@ -56,6 +56,6 @@ namespace UniRitter.UniRitter2015.Controllers
         {
             await _repo.Delete(id);
             return StatusCode(HttpStatusCode.NoContent);
-        }
+        }*/
     }
 }

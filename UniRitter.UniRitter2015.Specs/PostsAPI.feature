@@ -11,7 +11,6 @@ Background:
 	| 4c134160-6575-4421-a7ab-1d75ca586774 | Yet another | Another | 8d0d477f-1378-4fc1-bb47-29eb3ea959e1 | Post        |
 	| c2423529-b1bd-4dfb-8a0b-5541f04e2ce7 | Last post   | Last    | 58b024e9-57dc-49e4-8fc9-2d4d82bf1670 | Last,Post   |
 
-
 	@integrated
 	Scenario: Get all post entries
 	Given the populated API
@@ -51,3 +50,27 @@ Background:
 	| case           | data | messageRegex |
 	| missing body	 | {}   | .*body.*	   |
 	| title too long | {}   | .*title.*    |
+
+	@integrated
+	Scenario: Add a valid post
+	Given a valid post resource
+	When I post is to the /posts endpoint
+	Then I get a success (code 201) response code
+	And I receive the posted resource
+	And the resource id is populated
+
+	@integrated
+	Scenario: Valid update
+	Given an existing person resource
+	And a valid update message to that resource
+	When I run a PUT command against the /people endpoint
+	Then I receive a success (code 200) status message
+	And I receive the updated resource in the body of the message
+
+	@integrated
+	Scenario: Invalid update
+	Given an existing person resource
+	And an invalid update message to that resource
+	When I run a PUT command against the /people endpoint
+	Then I receive an error (code 400) status message
+	And I receive a list of validation errors in the body of the message
