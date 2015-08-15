@@ -46,7 +46,7 @@ namespace UniRitter.UniRitter2015.Specs
         [Then(@"I receive a success \(code (.*)\) return message")]
         public void ThenIReceiveASuccessCodeReturnMessage(int code)
         {
-            if (! response.IsSuccessStatusCode)
+            if (!response.IsSuccessStatusCode)
             {
                 var msg = String.Format("API error: {0}", response.Content.ReadAsStringAsync().Result);
                 Assert.Fail(msg);
