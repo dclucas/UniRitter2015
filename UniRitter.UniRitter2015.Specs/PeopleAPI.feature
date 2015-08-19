@@ -15,14 +15,14 @@ Background:
 	Scenario: Get all people entries
 	Given the populated API
 	When I GET from the /people API endpoint
-	Then I get a list containing the populated resources
+	Then I get a list containing the populated resources of the people
 
 	@integrated
 	Scenario Outline: Get a specific person entry
 	Given the populated API
 	When I GET from the /people/<id> API endpoint
 	Then I receive a success (code 200) return message
-	And the data matches that id
+	And the data of people matches that id
 	Examples:
 	| id									|
 	| 8d0d477f-1378-4fc1-bb47-29eb3ea959e1	|
