@@ -8,11 +8,11 @@ namespace UniRitter.UniRitter2015.Models
         public Guid? id { get; set; }
 
         [Required]
-        [MaxLength(4000, ErrorMessage = "Tamanho maximo de 4000 caracteres")]
+        [MaxLength(4000)]
         public string body { get; set; }
 
         [Required]
-        [MaxLength(100, ErrorMessage = "Tamanho maximo de 100 caracteres")]
+        [MaxLength(100)]
         public string title { get; set; }
 
         public Guid authorId { get; set; }

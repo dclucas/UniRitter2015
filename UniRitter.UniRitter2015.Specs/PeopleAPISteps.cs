@@ -14,73 +14,44 @@ using UniRitter.UniRitter2015.Support;
 
 namespace UniRitter.UniRitter2015.Specs
 {
-    [Binding]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1001:TypesThatOwnDisposableFieldsShouldBeDisposable"), Binding]
     public class PeopleAPISteps
     {
         private readonly HttpClient client;
-        private HttpResponseMessage response;
         private IEnumerable<Person> backgroundData;
         private string path;
         private Person personData;
+        private HttpResponseMessage response;
         private Person result;
 
         public PeopleAPISteps()
         {
             client = new HttpClient();
-            client.BaseAddress = new Uri("http://localhost:9000/");
+            client.BaseAddress = new Uri("http://localhost:49556/");
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        [Given(@"an API populated with the following People")]
-        public void GivenAnAPIPopulatedWithTheFollowingPeople(Table table)
-        {
-            /*
-            var mongoRepo = new MongoRepository<PersonModel>(new ApiConfig());
-            mongoRepo.Upsert(table.CreateSet<PersonModel>());
-            */
-            backgroundData = table.CreateSet<Person>();
-            var repo = new InMemoryRepository<PersonModel>();
-            foreach (var entry in table.CreateSet<PersonModel>()) { repo.Add(entry); }
-        }
-
-        [Given(@"a person resource as described below:")]
-        public void GivenAPersonResourceAsDescribedBelow(Table table)
-        {
-            personData = new Person();
-            table.FillInstance(personData);
-        }
-
-        [When(@"I post it to the /People API endpoint")]
+        [When(@"I post it to the /people API endpoint")]
         public void WhenIPostItToThePeopleAPIEndpoint()
         {
-            response = client.PostAsJsonAsync("People", personData).Result;
+            response = client.PostAsJsonAsync("people", personData).Result;
         }
-
-        [When(@"I post the following data to the /People API endpoint: (.+)")]
-        public void WhenIPostTheFollowingDataToThePeopleAPIEndpoint(string jsonData)
-        {
-            personData = JsonConvert.DeserializeObject<Person>(jsonData);
-            response = client.PostAsJsonAsync("People", personData).Result;
-        }
-
-
-
 
         private void CheckCode(int code)
         {
-            Assert.That(response.StatusCode, Is.EqualTo((HttpStatusCode)code));
+            Assert.That(response.StatusCode, Is.EqualTo((HttpStatusCode) code));
         }
 
         [Then(@"I receive a success \(code (.*)\) return message")]
         public void ThenIReceiveASuccessCodeReturnMessage(int code)
         {
-            if (!response.IsSuccessStatusCode)
+            if (! response.IsSuccessStatusCode)
             {
                 var msg = String.Format("API error: {0}", response.Content.ReadAsStringAsync().Result);
                 Assert.Fail(msg);
             }
-
+            
             CheckCode(code);
         }
 
@@ -115,7 +86,6 @@ namespace UniRitter.UniRitter2015.Specs
         public void GivenThePopulatedAPI()
         {
             // This step has been left blank -- data seeding occurs in the backgorund step
-            //Assert.IsTrue(true);
         }
 
         [When(@"I GET from the /(.+) API endpoint")]
@@ -141,11 +111,18 @@ namespace UniRitter.UniRitter2015.Specs
             Assert.That(result, Is.EqualTo(expected));
         }
 
-        [Then(@"I can fetch /(.+) from the API")]
-        public void ThenICanFetchItFromTheAPI(string path)
+        [Given(@"a person resource as described below:")]
+        public void GivenAPersonResourceAsDescribedBelow(Table table)
+        {
+            personData = new Person();
+            table.FillInstance(personData);
+        }
+
+        [Then(@"I can fetch it from the API")]
+        public void ThenICanFetchItFromTheAPI()
         {
             var id = result.id.Value;
-            var newEntry = client.GetAsync(path + "/" + id).Result;
+            var newEntry = client.GetAsync("people/" + id).Result;
             Assert.That(newEntry, Is.Not.Null);
         }
 
@@ -159,6 +136,25 @@ namespace UniRitter.UniRitter2015.Specs
         public void GivenAnInvalidResource(string resourceCase)
         {
             // step purposefully left blank
+        }
+
+        [Given(@"an API populated with the following people")]
+        public void GivenAnAPIPopulatedWithTheFollowingPeople(Table table)
+        {
+            backgroundData = table.CreateSet<Person>();
+            //var mongoRepo = new MongoRepository<PersonModel>(new ApiConfig());
+            //mongoRepo.Upsert(table.CreateSet<PersonModel>());
+            var repo = new InMemoryRepository<PersonModel>();
+            foreach (var entry in table.CreateSet<PersonModel>()) {
+                repo.Add(entry);
+            }
+        }
+
+        [When(@"I post the following data to the /people API endpoint: (.+)")]
+        public void WhenIPostTheFollowingDataToThePeopleAPIEndpoint(string jsonData)
+        {
+            personData = JsonConvert.DeserializeObject<Person>(jsonData);
+            response = client.PostAsJsonAsync("people", personData).Result;
         }
 
         [Then(@"I receive a message that conforms (.+)")]
