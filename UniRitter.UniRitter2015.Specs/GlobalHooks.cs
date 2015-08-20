@@ -11,7 +11,7 @@ namespace UniRitter.UniRitter2015.Specs
         [BeforeTestRun]
         public static void BeforeTestRun()
         {
-            var baseAddress = "http://localhost:49556/";
+            var baseAddress = "http://localhost:9000/";
 
             WebApp.Start<Startup>(baseAddress);
             Startup.kernel.Rebind(typeof(IRepository<>)).To(typeof(InMemoryRepository<>));
