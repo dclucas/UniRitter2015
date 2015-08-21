@@ -178,17 +178,17 @@ this.FeatureBackground();
                         "8d0d477f-1378-4fc1-bb47-29eb3ea959e1",
                         "New,Post"});
 #line 35
- testRunner.Given("a post resource as described below:", ((string)(null)), table2, "Given ");
+ testRunner.Given("a posts resource as described below:", ((string)(null)), table2, "Given ");
 #line 38
  testRunner.When("I post it to the /posts API endpoint", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 39
  testRunner.Then("I receive a success (code 200) return message", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 40
- testRunner.And("I receive the posted resource", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I receive the posted resource of posts", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 41
- testRunner.And("the posted resource now has an ID", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("the posted posts resource now has an ID", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 42
- testRunner.And("I can fetch it from the API", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I can fetch posts from the API", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }
