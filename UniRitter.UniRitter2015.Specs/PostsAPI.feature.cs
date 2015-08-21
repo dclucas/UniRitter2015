@@ -84,7 +84,7 @@ namespace UniRitter.UniRitter2015.Specs
             table1.AddRow(new string[] {
                         "cb4e2dae-b29d-4484-8001-9322912a6376",
                         "Post 2",
-                        "#2",
+                        "a2",
                         "1a5fd0be-d654-40ff-8190-ca59e3b52e76",
                         "Second,Post"});
             table1.AddRow(new string[] {
@@ -100,39 +100,39 @@ namespace UniRitter.UniRitter2015.Specs
                         "58b024e9-57dc-49e4-8fc9-2d4d82bf1670",
                         "Last,Post"});
 #line 7
- testRunner.Given("an API populated with the following posts", ((string)(null)), table1, "Given ");
+ testRunner.Given("an API populated with the following Post", ((string)(null)), table1, "Given ");
 #line hidden
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Get all post entries")]
+        [NUnit.Framework.DescriptionAttribute("Get all entries Post")]
         [NUnit.Framework.CategoryAttribute("integrated")]
-        public virtual void GetAllPostEntries()
+        public virtual void GetAllEntriesPost()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Get all post entries", new string[] {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Get all entries Post", new string[] {
                         "integrated"});
-#line 16
+#line 15
  this.ScenarioSetup(scenarioInfo);
 #line 6
 this.FeatureBackground();
+#line 16
+ testRunner.Given("the populated API Post", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 17
- testRunner.Given("the populated API", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.When("I get from the /Posts API endpoint Post", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 18
- testRunner.When("I GET from the /posts API endpoint", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 19
- testRunner.Then("I get a list containing the populated resources", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("I get a list containing the populated resources Post", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Get a specific post entry")]
+        [NUnit.Framework.DescriptionAttribute("Get a specific entry")]
         [NUnit.Framework.CategoryAttribute("integrated")]
         [NUnit.Framework.TestCaseAttribute("5e3e751a-490d-4c29-a93d-26dcfd2ce4a2", null)]
         [NUnit.Framework.TestCaseAttribute("cb4e2dae-b29d-4484-8001-9322912a6376", null)]
         [NUnit.Framework.TestCaseAttribute("4c134160-6575-4421-a7ab-1d75ca586774", null)]
         [NUnit.Framework.TestCaseAttribute("c2423529-b1bd-4dfb-8a0b-5541f04e2ce7", null)]
-        public virtual void GetASpecificPostEntry(string id, string[] exampleTags)
+        public virtual void GetASpecificEntry(string id, string[] exampleTags)
         {
             string[] @__tags = new string[] {
                     "integrated"};
@@ -140,29 +140,29 @@ this.FeatureBackground();
             {
                 @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));
             }
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Get a specific post entry", @__tags);
-#line 22
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Get a specific entry", @__tags);
+#line 21
  this.ScenarioSetup(scenarioInfo);
 #line 6
 this.FeatureBackground();
+#line 22
+ testRunner.Given("the populated API Post", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 23
- testRunner.Given("the populated API", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.When(string.Format("I get from the /Posts/{0} API endpoint Post", id), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 24
- testRunner.When(string.Format("I GET from the /posts/{0} API endpoint", id), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 25
- testRunner.Then("the data matches that id", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("the data matches that id Post", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Add a post")]
+        [NUnit.Framework.DescriptionAttribute("Add a Post")]
         [NUnit.Framework.CategoryAttribute("integrated")]
         public virtual void AddAPost()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add a post", new string[] {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add a Post", new string[] {
                         "integrated"});
-#line 34
+#line 33
  this.ScenarioSetup(scenarioInfo);
 #line 6
 this.FeatureBackground();
@@ -177,18 +177,18 @@ this.FeatureBackground();
                         "New one",
                         "8d0d477f-1378-4fc1-bb47-29eb3ea959e1",
                         "New,Post"});
-#line 35
- testRunner.Given("a post resource as described below:", ((string)(null)), table2, "Given ");
+#line 34
+ testRunner.Given("a resource as described below Post:", ((string)(null)), table2, "Given ");
+#line 37
+ testRunner.When("I post it to the /Posts API endpoint", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 38
- testRunner.When("I post it to the /posts API endpoint", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.Then("I receive a success (code 200) return Post message", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 39
- testRunner.Then("I receive a success (code 200) return message", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.And("I receive the Post resource", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 40
- testRunner.And("I receive the posted resource", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("the posted resource now has an Post ID", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 41
- testRunner.And("the posted resource now has an ID", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 42
- testRunner.And("I can fetch it from the API", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I can fetch /Post from the APIPost", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -196,8 +196,11 @@ this.FeatureBackground();
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Invalid post data on insertion")]
         [NUnit.Framework.CategoryAttribute("integrated")]
-        [NUnit.Framework.TestCaseAttribute("missing body", "{}", ".*body.*", null)]
-        [NUnit.Framework.TestCaseAttribute("title too long", "{}", ".*title.*", null)]
+        [NUnit.Framework.TestCaseAttribute("missing body", "{\"title\":\"tttt\",\"autthorId\":\"8d0d477f-1378-4fc1-bb47-29eb3ea959e1\",\"tags\":\"Body\"}" +
+            "", ".*body.*", null)]
+        [NUnit.Framework.TestCaseAttribute("title too long", "{\"body\":\"bbbbbb\",\"title\":\"tttt123456789.123456789.123456789.123456789.123456789.1" +
+            "23456789.123456789.123456789.123456789.123456789.\",\"autthorId\":\"4c134160-6575-44" +
+            "21-a7ab-1d75ca586774\",\"tags\":\"Title\"}", ".*title.*", null)]
         public virtual void InvalidPostDataOnInsertion(string @case, string data, string messageRegex, string[] exampleTags)
         {
             string[] @__tags = new string[] {
@@ -207,18 +210,18 @@ this.FeatureBackground();
                 @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));
             }
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Invalid post data on insertion", @__tags);
-#line 45
+#line 44
  this.ScenarioSetup(scenarioInfo);
 #line 6
 this.FeatureBackground();
+#line 45
+ testRunner.Given(string.Format("a {0} resource Post", @case), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 46
- testRunner.Given(string.Format("a {0} resource", @case), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.When(string.Format("I post the following data to the /Posts API endpoint: {0}", data), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 47
- testRunner.When(string.Format("I post the following data to the /posts API endpoint: {0}", data), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.Then("I receive an error (code 400) return message Post", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 48
- testRunner.Then("I receive an error (code 400) return message", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 49
- testRunner.And(string.Format("I receive a message that conforms {0}", messageRegex), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And(string.Format("I receive a Post message that conforms {0}", messageRegex), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }
