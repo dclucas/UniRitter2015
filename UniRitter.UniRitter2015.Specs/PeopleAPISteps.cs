@@ -36,15 +36,15 @@ namespace UniRitter.UniRitter2015.Specs
         }
 
         [When(@"I post it to the /(.+) API endpoint")]
-        public void WhenIPostItToThePeopleAPIEndpoint(String resource)
+        public void WhenIPostItToTheAPIEndpoint(String resource)
         {
             switch (resource)
             {
                 case "people":
-                    response = client.PostAsJsonAsync("people", personData).Result;
+                    response = client.PostAsJsonAsync(resource, personData).Result;
                     break;
                 case "posts":
-                    response = client.PostAsJsonAsync("posts", postData).Result;
+                    response = client.PostAsJsonAsync(resource, postData).Result;
                     break;
             }
 
