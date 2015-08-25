@@ -35,7 +35,7 @@ namespace UniRitter.UniRitter2015.Specs
         [Given(@"an API populated with the following Post")]
         public void GivenAnAPIPopulatedWithTheFollowingPost(Table table)
         {
-             /*
+            /*
             var mongoRepo = new MongoRepository<PostModel>(new ApiConfig());
             mongoRepo.Upsert(table.CreateSet<PostModel>());
             */
@@ -173,7 +173,7 @@ namespace UniRitter.UniRitter2015.Specs
             public string body { get; set; }
             public string title { get; set; }
             public Guid authorId { get; set; }
-            public string tags { get; set; }
+            public IEnumerable<string> tags { get; set; }
 
             public bool Equals(Post other)
             {

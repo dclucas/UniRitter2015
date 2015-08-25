@@ -48,5 +48,5 @@ Background:
 	And I receive a Post message that conforms <messageRegex>
 	Examples:
 	| case           | data																																																		| messageRegex	|
-	| missing body	 | {"title":"tttt","autthorId":"8d0d477f-1378-4fc1-bb47-29eb3ea959e1","tags":"Body"}																										| .*body.*		|
-	| title too long | {"body":"bbbbbb","title":"tttt123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.","autthorId":"4c134160-6575-4421-a7ab-1d75ca586774","tags":"Title"}	| .*title.*		|
+	| missing body	 | {"title":"tttt","autthorId":"8d0d477f-1378-4fc1-bb47-29eb3ea959e1","tags":["Body"]}																														| .*body.*		|
+	| title too long | {"body":"bbbbbb","title":"tttt123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.","autthorId":"4c134160-6575-4421-a7ab-1d75ca586774","tags":["Title"]}	| .*title.*		|

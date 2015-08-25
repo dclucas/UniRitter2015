@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace UniRitter.UniRitter2015.Models
@@ -17,6 +18,6 @@ namespace UniRitter.UniRitter2015.Models
 
         public Guid authorId { get; set; }
 
-        public string tags { get; set; }
+        public IEnumerable<string> tags { get; set; }
     }
 }
