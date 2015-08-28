@@ -1,4 +1,4 @@
-﻿Feature: People API
+Feature: People API
 	In order to know who places posts and comments on my blog
 	As a blog owner
 	I want to have an API that allows my apps to manage user information
@@ -15,14 +15,14 @@ Background:
 	Scenario: Get all people entries
 	Given the populated API
 	When I GET from the /people API endpoint
-	Then I get a list containing the populated resources
+	Then I get a list containing the populated resources of the people
 
 	@integrated
 	Scenario Outline: Get a specific person entry
 	Given the populated API
 	When I GET from the /people/<id> API endpoint
 	Then I receive a success (code 200) return message
-	And the data matches that id
+	And the data of people matches that id
 	Examples:
 	| id									|
 	| 8d0d477f-1378-4fc1-bb47-29eb3ea959e1	|
@@ -36,9 +36,9 @@ Background:
 	| Josh		| Doe		| josh@email.com	| http://josh.doe.com	|
 	When I post it to the /people API endpoint
 	Then I receive a success (code 200) return message
-	And I receive the posted resource
-	And the posted resource now has an ID
-	And I can fetch it from the API
+	And I receive the posted resource of people
+	And the posted people resource now has an ID
+	And I can fetch people from the API
 
 	@integrated
 	Scenario Outline: Invalid person data on insertion

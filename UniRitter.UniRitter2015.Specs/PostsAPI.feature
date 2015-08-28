@@ -16,13 +16,13 @@ Background:
 	Scenario: Get all post entries
 	Given the populated API
 	When I GET from the /posts API endpoint
-	Then I get a list containing the populated resources
+	Then I get a list containing the populated resources of the posts
 
 	@integrated
 	Scenario Outline: Get a specific post entry
 	Given the populated API
 	When I GET from the /posts/<id> API endpoint
-	Then the data matches that id
+	Then the data of posts matches that id
 	Examples:
 	| id                                   |
 	| 5e3e751a-490d-4c29-a93d-26dcfd2ce4a2 |
@@ -32,14 +32,14 @@ Background:
 
 	@integrated
 	Scenario: Add a post
-	Given a post resource as described below:
+	Given a posts resource as described below:
 	| body        | title   | authorId                             | tags     |
 	| My new Post | New one	| 8d0d477f-1378-4fc1-bb47-29eb3ea959e1 | New,Post |
 	When I post it to the /posts API endpoint
 	Then I receive a success (code 200) return message
-	And I receive the posted resource
-	And the posted resource now has an ID
-	And I can fetch it from the API
+	And I receive the posted resource of posts
+	And the posted posts resource now has an ID
+	And I can fetch posts from the API
 
 	@integrated
 	Scenario Outline: Invalid post data on insertion

@@ -138,6 +138,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\CommentsController.cs" />
     <Compile Include="Controllers\PeopleController.cs" />
     <Compile Include="Controllers\PostsController.cs" />
     <Compile Include="Models\CommentModel.cs" />

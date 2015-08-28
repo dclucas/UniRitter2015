@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -19,10 +19,13 @@ namespace UniRitter.UniRitter2015.Specs
     {
         private readonly HttpClient client;
         private IEnumerable<Person> backgroundData;
+        private IEnumerable<Post> backgroundDataPost;
         private string path;
         private Person personData;
+        private Post postData;
         private HttpResponseMessage response;
         private Person result;
+        private Post resultPost;
 
         public PeopleAPISteps()
         {
@@ -32,10 +35,19 @@ namespace UniRitter.UniRitter2015.Specs
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        [When(@"I post it to the /people API endpoint")]
-        public void WhenIPostItToThePeopleAPIEndpoint()
+        [When(@"I post it to the /(.+) API endpoint")]
+        public void WhenIPostItToTheAPIEndpoint(String resource)
         {
-            response = client.PostAsJsonAsync("people", personData).Result;
+            switch (resource)
+            {
+                case "people":
+                    response = client.PostAsJsonAsync(resource, personData).Result;
+                    break;
+                case "posts":
+                    response = client.PostAsJsonAsync(resource, postData).Result;
+                    break;
+            }
+
         }
 
         private void CheckCode(int code)
@@ -55,17 +67,36 @@ namespace UniRitter.UniRitter2015.Specs
             CheckCode(code);
         }
 
-        [Then(@"I receive the posted resource")]
-        public void ThenIReceiveThePostedResource()
+        [Then(@"I receive the posted resource of (.+)")]
+        public void ThenIReceiveThePostedResource(String tipo)
         {
-            result = response.Content.ReadAsAsync<Person>().Result;
-            Assert.That(result.firstName, Is.EqualTo(personData.firstName));
+            switch (tipo)
+            {
+                case "people":
+                    result = response.Content.ReadAsAsync<Person>().Result;
+                    Assert.That(result.firstName, Is.EqualTo(personData.firstName));
+                    break;
+                case "posts":
+                    resultPost = response.Content.ReadAsAsync<Post>().Result;
+                    Assert.That(resultPost.body, Is.EqualTo(postData.body));
+                    break;
+            }
+
         }
 
-        [Then(@"the posted resource now has an ID")]
-        public void ThenThePostedResourceNowHasAnID()
+        [Then(@"the posted (.+) resource now has an ID")]
+        public void ThenThePostedResourceNowHasAnID(String tipo)
         {
-            Assert.That(result.id, Is.Not.Null);
+            switch (tipo)
+            {
+                case "people":
+                    Assert.That(result.id, Is.Not.Null);
+                    break;
+                case "posts":
+                    Assert.That(resultPost.id, Is.Not.Null);
+                    break;
+            }
+            
         }
 
         [Then(@"I receive an error \(code (.*)\) return message")]
@@ -95,35 +126,78 @@ namespace UniRitter.UniRitter2015.Specs
             response = client.GetAsync(path).Result;
         }
 
-        [Then(@"I get a list containing the populated resources")]
-        public void ThenIGetAListContainingThePopulatedResources()
+        [Then(@"I get a list containing the populated resources of the (.+)")]
+        public void ThenIGetAListContainingThePopulatedResources(String tipo)
         {
-            var resourceList = response.Content.ReadAsAsync<IEnumerable<Person>>().Result;
-            Assert.That(backgroundData, Is.SubsetOf(resourceList));
+            switch(tipo)
+            {
+                case "people":
+                    var resourceListPeople = response.Content.ReadAsAsync<IEnumerable<Person>>().Result;
+                    Assert.That(backgroundData, Is.SubsetOf(resourceListPeople));
+                    break;
+                case "posts":
+                    var resourceListPost = response.Content.ReadAsAsync<IEnumerable<Post>>().Result;
+                    Assert.That(backgroundDataPost, Is.SubsetOf(resourceListPost));
+                    break;
+            }
+            
         }
 
-        [Then(@"the data matches that id")]
-        public void ThenIGetThePersonRecordThatMatchesThatId()
+        [Then(@"the data of (.+) matches that id")]
+        public void ThenIGetTheRecordThatMatchesThatId(String tipo)
         {
             var id = new Guid(path.Substring(path.LastIndexOf('/') + 1));
-            result = response.Content.ReadAsAsync<Person>().Result;
-            var expected = backgroundData.Single(p => p.id == id);
-            Assert.That(result, Is.EqualTo(expected));
+
+            switch (tipo)
+            {
+                case "people":
+                    result = response.Content.ReadAsAsync<Person>().Result;
+                    var expected = backgroundData.Single(p => p.id == id);
+                    Assert.That(result, Is.EqualTo(expected));                    
+                    break;
+                case "posts":
+                    resultPost = response.Content.ReadAsAsync<Post>().Result;
+                    var expectedPost = backgroundDataPost.Single(p => p.id == id);
+                    Assert.That(resultPost, Is.EqualTo(expectedPost));
+                    break;
+            }
+
         }
 
-        [Given(@"a person resource as described below:")]
-        public void GivenAPersonResourceAsDescribedBelow(Table table)
+        [Given(@"a (.+) resource as described below:")]
+        public void GivenAPersonResourceAsDescribedBelow(String tipo, Table table)
         {
-            personData = new Person();
-            table.FillInstance(personData);
+            switch (tipo)
+            {
+                case "person":
+                    personData = new Person();
+                    table.FillInstance(personData);
+                    break;
+                case "posts":
+                    postData = new Post();
+                    table.FillInstance(postData);
+                    break;
+            }
+
         }
 
-        [Then(@"I can fetch it from the API")]
-        public void ThenICanFetchItFromTheAPI()
+        [Then(@"I can fetch (.+) from the API")]
+        public void ThenICanFetchItFromTheAPI(String tipo)
         {
-            var id = result.id.Value;
-            var newEntry = client.GetAsync("people/" + id).Result;
-            Assert.That(newEntry, Is.Not.Null);
+            switch (tipo)
+            {
+                case "people":
+                    var id = result.id.Value;
+                    var newEntry = client.GetAsync("people/" + id).Result;
+                    Assert.That(newEntry, Is.Not.Null);
+                    break;
+                case "posts":
+                    var idPost = resultPost.id.Value;
+                    var newEntryPost = client.GetAsync("posts/" + idPost).Result;
+                    Assert.That(newEntryPost, Is.Not.Null);
+                    break;
+            }
+
         }
 
         [Given(@"a ""(.*)"" resource")]
@@ -138,23 +212,48 @@ namespace UniRitter.UniRitter2015.Specs
             // step purposefully left blank
         }
 
-        [Given(@"an API populated with the following people")]
-        public void GivenAnAPIPopulatedWithTheFollowingPeople(Table table)
+        [Given(@"an API populated with the following (.+)")]
+        public void GivenAnAPIPopulatedWithTheFollowing(String tipo, Table table)
         {
-            backgroundData = table.CreateSet<Person>();
-            //var mongoRepo = new MongoRepository<PersonModel>(new ApiConfig());
-            //mongoRepo.Upsert(table.CreateSet<PersonModel>());
-            var repo = new InMemoryRepository<PersonModel>();
-            foreach (var entry in table.CreateSet<PersonModel>()) {
-                repo.Add(entry);
-            }
-        }
+            switch(tipo)
+            {
+                case "people":
+                    backgroundData = table.CreateSet<Person>();
+                    var repoPeople = new InMemoryRepository<PersonModel>();
+                    //var mongoRepo = new MongoRepository<PersonModel>(new ApiConfig());
+                    //mongoRepo.Upsert(table.CreateSet<PersonModel>());
+                    foreach (var entry in table.CreateSet<PersonModel>()) {
+                        repoPeople.Add(entry);
+                    }
+                    break;
 
-        [When(@"I post the following data to the /people API endpoint: (.+)")]
-        public void WhenIPostTheFollowingDataToThePeopleAPIEndpoint(string jsonData)
+                case "posts":
+                    backgroundDataPost = table.CreateSet<Post>();
+                    //var mongoRepo = new MongoRepository<PersonModel>(new ApiConfig());
+                    //mongoRepo.Upsert(table.CreateSet<PersonModel>());
+                    var repoPost = new InMemoryRepository<PostModel>();
+                    foreach (var entry in table.CreateSet<PostModel>())
+                    {
+                        repoPost.Add(entry);
+                    }
+                    break;
+            }
+
+        }
+        
+        [When(@"I post the following data to the /(.+) API endpoint: (.+)")]
+        public void WhenIPostTheFollowingDataToThePeopleAPIEndpoint(String tipo, string jsonData)
         {
-            personData = JsonConvert.DeserializeObject<Person>(jsonData);
-            response = client.PostAsJsonAsync("people", personData).Result;
+            switch(tipo) {
+                case "people":
+                    personData = JsonConvert.DeserializeObject<Person>(jsonData);
+                    response = client.PostAsJsonAsync(tipo, personData).Result;
+                    break;
+                case "posts":
+                    postData = JsonConvert.DeserializeObject<Post>(jsonData);
+                    response = client.PostAsJsonAsync(tipo, postData).Result;
+                    break;
+            }
         }
 
         [Then(@"I receive a message that conforms (.+)")]
@@ -198,5 +297,41 @@ namespace UniRitter.UniRitter2015.Specs
                 return id.GetHashCode();
             }
         }
+
+        private class Post : IEquatable<Post>
+        {
+            public Guid? id { get; set; }
+            public string body { get; set; }
+            public string title { get; set; }
+            public Guid? authorId { get; set; }
+            public IEnumerable<string> tags { get; set; }
+
+            public bool Equals(Post other)
+            {
+                if (other == null) return false;
+
+                return
+                    id == other.id
+                    && body == other.body
+                    && title == other.title
+                    && authorId == other.authorId
+                    && tags == other.tags;
+            }
+
+            public override bool Equals(object obj)
+            {
+                if (obj != null)
+                {
+                    return Equals(obj as Post);
+                }
+                return false;
+            }
+
+            public override int GetHashCode()
+            {
+                return id.GetHashCode();
+            }
+        }
+
     }
 }
