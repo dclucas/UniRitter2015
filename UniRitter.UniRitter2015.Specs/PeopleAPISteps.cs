@@ -240,12 +240,20 @@ namespace UniRitter.UniRitter2015.Specs
             }
 
         }
-
-        [When(@"I post the following data to the /people API endpoint: (.+)")]
-        public void WhenIPostTheFollowingDataToThePeopleAPIEndpoint(string jsonData)
+        
+        [When(@"I post the following data to the /(.+) API endpoint: (.+)")]
+        public void WhenIPostTheFollowingDataToThePeopleAPIEndpoint(String tipo, string jsonData)
         {
-            personData = JsonConvert.DeserializeObject<Person>(jsonData);
-            response = client.PostAsJsonAsync("people", personData).Result;
+            switch(tipo) {
+                case "people":
+                    personData = JsonConvert.DeserializeObject<Person>(jsonData);
+                    response = client.PostAsJsonAsync(tipo, personData).Result;
+                    break;
+                case "posts":
+                    postData = JsonConvert.DeserializeObject<Post>(jsonData);
+                    response = client.PostAsJsonAsync(tipo, postData).Result;
+                    break;
+            }
         }
 
         [Then(@"I receive a message that conforms (.+)")]
