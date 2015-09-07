@@ -7,6 +7,8 @@ namespace UniRitter.UniRitter2015.Models
     {
         public Guid? id { get; set; }
 
+        //todo
+
         [Required]
         [MaxLength(100)]
         public string firstName { get; set; }
